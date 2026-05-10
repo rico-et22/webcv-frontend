@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "login": "Zaloguj",
+    "register": "Zarejestruj"
+  },
+  "landing": {
+    "headline": "Twoja wizytówka w sieci",
+    "headlineHighlight": "z Twojego CV",
+    "subtitle": "Wypełnij formularz lub wrzuć plik PDF — asystent AI uzupełni dane za Ciebie. W kilka minut wygenerujesz gotową stronę portfolio, którą postawisz na dowolnym hostingu.",
+    "cta": "Rozpocznij",
+    "leadImageAlt": "CV przekształcone w stronę portfolio"
+  },
+  "notFound": {
+    "title": "Nie znaleziono strony",
+    "cta": "Powrót na stronę główną"
+  }
+}
