@@ -12,24 +12,67 @@
 
 export interface RegisterDto {
   /** @example "user@example.com" */
-  email: string
+  email: string;
   /**
    * @minLength 8
    * @example "StrongPass1"
    */
-  password: string
+  password: string;
+}
+
+export interface AuthUserDto {
+  /** @example "eeb0e10b-f4ba-45ba-8cf8-19ba470be92e" */
+  id: string;
+  /** @example "authenticated" */
+  aud: string;
+  /** @example "authenticated" */
+  role: string;
+  /** @example "ricoet22+test1@gmail.com" */
+  email: string;
+  /** @example "2026-04-19T13:38:38.93126Z" */
+  created_at: string;
+  /** @example "2026-05-10T19:24:01.952497Z" */
+  updated_at: string;
+}
+
+export interface RegisterResponseDto {
+  data: AuthUserDto;
+  /** @example "Registration successful. Please verify your email." */
+  message: string;
 }
 
 export interface LoginDto {
   /** @example "user@example.com" */
-  email: string
+  email: string;
   /** @example "StrongPass1" */
-  password: string
+  password: string;
+}
+
+export interface AuthSessionDataDto {
+  /** @example "eyJhbGciOiJFUzI1NiIs..." */
+  access_token: string;
+  /** @example "psnzwhdbv64i" */
+  refresh_token: string;
+  user: AuthUserDto;
+}
+
+export interface AuthResponseDto {
+  data: AuthSessionDataDto;
+  /** @example "Login successful" */
+  message: string;
+}
+
+export interface RefreshTokenDto {
+  /**
+   * The refresh token issued during login
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   */
+  refreshToken: string;
 }
 
 export interface ResetPasswordDto {
   /** @example "user@example.com" */
-  email: string
+  email: string;
 }
 
 export interface ConfirmResetDto {
@@ -37,192 +80,192 @@ export interface ConfirmResetDto {
    * Access token from the Supabase password reset link (hash fragment)
    * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
    */
-  accessToken: string
+  accessToken: string;
   /**
    * @minLength 8
    * @example "NewPass1"
    */
-  newPassword: string
+  newPassword: string;
 }
 
 export interface ChangePasswordDto {
   /** @example "OldPass1" */
-  currentPassword: string
+  currentPassword: string;
   /**
    * @minLength 8
    * @example "NewPass1"
    */
-  newPassword: string
+  newPassword: string;
 }
 
 export interface UserResponseDto {
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
-  id: string
+  id: string;
   /** @example "user@example.com" */
-  email: string
+  email: string;
   /** @example "authenticated" */
-  role: string
+  role: string;
   /** @example "2026-01-01T12:00:00Z" */
-  created_at: string
+  created_at: string;
 }
 
 export interface UpdateUserDto {
   /** @example "new@example.com" */
-  email?: string
+  email?: string;
 }
 
 export interface ContactDto {
   /** @example "kamil@example.com" */
-  email?: string
+  email?: string;
   /** @example "+48 123 456 789" */
-  phone?: string
+  phone?: string;
   /** @example "https://linkedin.com/in/kamilpawlak" */
-  linkedin?: string
+  linkedin?: string;
   /** @example "https://github.com/kamilpawlak" */
-  github?: string
+  github?: string;
   /** @example "https://kamilpawlak.com" */
-  website?: string
+  website?: string;
 }
 
 export interface ExperienceDto {
   /** @example "Example Corp" */
-  company: string
+  company: string;
   /** @example "Frontend Developer" */
-  role: string
+  role: string;
   /** @example "2022-01" */
-  startDate: string
+  startDate: string;
   /** @example "2024-06" */
-  endDate?: string
+  endDate?: string;
   /** @example "Built and maintained React applications." */
-  description?: string
+  description?: string;
 }
 
 export interface EducationDto {
   /** @example "WSIiZ Rzeszów" */
-  institution: string
+  institution: string;
   /** @example "Bachelor of Computer Science" */
-  degree: string
+  degree: string;
   /** @example "2023-10" */
-  startDate: string
+  startDate: string;
   /** @example "2027-06" */
-  endDate?: string
+  endDate?: string;
 }
 
 export interface ProjectDto {
   /** @example "webCV" */
-  name: string
+  name: string;
   /** @example "A portfolio site generator for IT professionals." */
-  description?: string
+  description?: string;
   /** @example "https://github.com/kamilpawlak/webcv" */
-  url?: string
+  url?: string;
   /**
    * Supabase Storage path in the screenshots bucket. The generator derives the public URL from this at render time.
    * @example "50b61a6d-37d2-473c-a00b-b2da9d1caf9b/22de84be-e6ab-4fbb-9a58-a132f51fb97c/1774082008960.png"
    */
-  imageStoragePath?: string
+  imageStoragePath?: string;
 }
 
 export interface AchievementDto {
   /** @example "1st place — University Hackathon 2024" */
-  title: string
+  title: string;
   /** @example "Built a real-time collaboration tool in 24h." */
-  description?: string
+  description?: string;
 }
 
 export interface SiteResponseDto {
   /** @example "Kamil Pawlak" */
-  fullName: string
+  fullName: string;
   /** @example "Full-Stack Developer" */
-  jobTitle?: string
+  jobTitle?: string;
   /** @example "Rzeszów, Poland" */
-  location?: string
+  location?: string;
   /** @example "Passionate developer with 3+ years of experience..." */
-  bio?: string
+  bio?: string;
   /** @example "https://example.com/storage/avatar.png" */
-  avatarUrl?: string
+  avatarUrl?: string;
   /** @example "user-id/site-id/avatar.png" */
-  avatarStoragePath?: string
-  contacts?: ContactDto
+  avatarStoragePath?: string;
+  contacts?: ContactDto;
   /** @example ["TypeScript","NestJS","React"] */
-  skills?: string[]
-  experience?: ExperienceDto[]
-  education?: EducationDto[]
-  projects?: ProjectDto[]
-  achievements?: AchievementDto[]
+  skills?: string[];
+  experience?: ExperienceDto[];
+  education?: EducationDto[];
+  projects?: ProjectDto[];
+  achievements?: AchievementDto[];
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
-  id: string
+  id: string;
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
-  user_id: string
+  user_id: string;
   /** @example "2026-01-01T12:00:00Z" */
-  created_at: string
+  created_at: string;
   /** @example "2026-01-01T12:00:00Z" */
-  updated_at: string
+  updated_at: string;
 }
 
 export interface SiteSummaryResponseDto {
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
-  id: string
+  id: string;
   /** @example "Kamil Pawlak" */
-  full_name: string
+  full_name: string;
   /** @example "Full-Stack Developer" */
-  job_title?: string
+  job_title?: string;
   /** @example "https://example.com/avatar.png" */
-  avatar_url?: string
+  avatar_url?: string;
   /** @example "2026-01-01T12:00:00Z" */
-  created_at: string
+  created_at: string;
   /** @example "2026-01-01T12:00:00Z" */
-  updated_at: string
+  updated_at: string;
 }
 
 export interface CreateSiteDto {
   /** @example "Kamil Pawlak" */
-  fullName: string
+  fullName: string;
   /** @example "Full-Stack Developer" */
-  jobTitle?: string
+  jobTitle?: string;
   /** @example "Rzeszów, Poland" */
-  location?: string
+  location?: string;
   /** @example "Passionate developer with 3+ years of experience..." */
-  bio?: string
+  bio?: string;
   /** @example "https://example.com/storage/avatar.png" */
-  avatarUrl?: string
+  avatarUrl?: string;
   /** @example "user-id/site-id/avatar.png" */
-  avatarStoragePath?: string
-  contacts?: ContactDto
+  avatarStoragePath?: string;
+  contacts?: ContactDto;
   /** @example ["TypeScript","NestJS","React"] */
-  skills?: string[]
-  experience?: ExperienceDto[]
-  education?: EducationDto[]
-  projects?: ProjectDto[]
-  achievements?: AchievementDto[]
+  skills?: string[];
+  experience?: ExperienceDto[];
+  education?: EducationDto[];
+  projects?: ProjectDto[];
+  achievements?: AchievementDto[];
 }
 
 export interface UpdateSiteDto {
   /** @example "Kamil Pawlak" */
-  fullName?: string
+  fullName?: string;
   /** @example "Full-Stack Developer" */
-  jobTitle?: string
+  jobTitle?: string;
   /** @example "Rzeszów, Poland" */
-  location?: string
+  location?: string;
   /** @example "Passionate developer with 3+ years of experience..." */
-  bio?: string
+  bio?: string;
   /** @example "https://example.com/storage/avatar.png" */
-  avatarUrl?: string
+  avatarUrl?: string;
   /** @example "user-id/site-id/avatar.png" */
-  avatarStoragePath?: string
-  contacts?: ContactDto
+  avatarStoragePath?: string;
+  contacts?: ContactDto;
   /** @example ["TypeScript","NestJS","React"] */
-  skills?: string[]
-  experience?: ExperienceDto[]
-  education?: EducationDto[]
-  projects?: ProjectDto[]
-  achievements?: AchievementDto[]
+  skills?: string[];
+  experience?: ExperienceDto[];
+  education?: EducationDto[];
+  projects?: ProjectDto[];
+  achievements?: AchievementDto[];
 }
 
 export interface UploadResponseDto {
   /** @example "https://xyz.supabase.co/storage/v1/object/public/avatars/user-id/avatar.png" */
-  url: string
+  url: string;
   /** @example "user-id/avatar.png" */
-  storagePath: string
+  storagePath: string;
 }
 
 export interface DeleteFileDto {
@@ -230,59 +273,57 @@ export interface DeleteFileDto {
    * Full storage path returned by an upload endpoint
    * @example "user-uuid/avatar.png"
    */
-  path: string
+  path: string;
   /**
    * Bucket name the file lives in
    * @example "avatars"
    */
-  bucket: "avatars" | "screenshots"
+  bucket: "avatars" | "screenshots";
 }
 
-export type QueryParamsType = Record<string | number, any>
-export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
 export interface FullRequestParams extends Omit<RequestInit, "body"> {
   /** set parameter to `true` for call `securityWorker` for this request */
-  secure?: boolean
+  secure?: boolean;
   /** request path */
-  path: string
+  path: string;
   /** content type of request body */
-  type?: ContentType
+  type?: ContentType;
   /** query params */
-  query?: QueryParamsType
+  query?: QueryParamsType;
   /** format of response (i.e. response.json() -> format: "json") */
-  format?: ResponseFormat
+  format?: ResponseFormat;
   /** request body */
-  body?: unknown
+  body?: unknown;
   /** base url */
-  baseUrl?: string
+  baseUrl?: string;
   /** request cancellation token */
-  cancelToken?: CancelToken
+  cancelToken?: CancelToken;
 }
 
 export type RequestParams = Omit<
   FullRequestParams,
   "body" | "method" | "query" | "path"
->
+>;
 
 export interface ApiConfig<SecurityDataType = unknown> {
-  baseUrl?: string
-  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
   securityWorker?: (
-    securityData: SecurityDataType | null
-  ) => Promise<RequestParams | void> | RequestParams | void
-  customFetch?: typeof fetch
+    securityData: SecurityDataType | null,
+  ) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: typeof fetch;
 }
 
-export interface HttpResponse<
-  D extends unknown,
-  E extends unknown = unknown,
-> extends Response {
-  data: D
-  error: E
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D;
+  error: E;
 }
 
-type CancelToken = Symbol | string | number
+type CancelToken = Symbol | string | number;
 
 export enum ContentType {
   Json = "application/json",
@@ -293,59 +334,59 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = ""
-  private securityData: SecurityDataType | null = null
-  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"]
-  private abortControllers = new Map<CancelToken, AbortController>()
+  public baseUrl: string = "";
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private abortControllers = new Map<CancelToken, AbortController>();
   private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
-    fetch(...fetchParams)
+    fetch(...fetchParams);
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
     headers: {},
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  }
+  };
 
   constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
-    Object.assign(this, apiConfig)
+    Object.assign(this, apiConfig);
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {
-    this.securityData = data
-  }
+    this.securityData = data;
+  };
 
   protected encodeQueryParam(key: string, value: any) {
-    const encodedKey = encodeURIComponent(key)
-    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`
+    const encodedKey = encodeURIComponent(key);
+    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
   }
 
   protected addQueryParam(query: QueryParamsType, key: string) {
-    return this.encodeQueryParam(key, query[key])
+    return this.encodeQueryParam(key, query[key]);
   }
 
   protected addArrayQueryParam(query: QueryParamsType, key: string) {
-    const value = query[key]
-    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&")
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
-    const query = rawQuery || {}
+    const query = rawQuery || {};
     const keys = Object.keys(query).filter(
-      (key) => "undefined" !== typeof query[key]
-    )
+      (key) => "undefined" !== typeof query[key],
+    );
     return keys
       .map((key) =>
         Array.isArray(query[key])
           ? this.addArrayQueryParam(query, key)
-          : this.addQueryParam(query, key)
+          : this.addQueryParam(query, key),
       )
-      .join("&")
+      .join("&");
   }
 
   protected addQueryParams(rawQuery?: QueryParamsType): string {
-    const queryString = this.toQueryString(rawQuery)
-    return queryString ? `?${queryString}` : ""
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? `?${queryString}` : "";
   }
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
@@ -363,28 +404,28 @@ export class HttpClient<SecurityDataType = unknown> {
         : input,
     [ContentType.FormData]: (input: any) => {
       if (input instanceof FormData) {
-        return input
+        return input;
       }
 
       return Object.keys(input || {}).reduce((formData, key) => {
-        const property = input[key]
+        const property = input[key];
         formData.append(
           key,
           property instanceof Blob
             ? property
             : typeof property === "object" && property !== null
               ? JSON.stringify(property)
-              : `${property}`
-        )
-        return formData
-      }, new FormData())
+              : `${property}`,
+        );
+        return formData;
+      }, new FormData());
     },
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
-  }
+  };
 
   protected mergeRequestParams(
     params1: RequestParams,
-    params2?: RequestParams
+    params2?: RequestParams,
   ): RequestParams {
     return {
       ...this.baseApiParams,
@@ -395,33 +436,33 @@ export class HttpClient<SecurityDataType = unknown> {
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },
-    }
+    };
   }
 
   protected createAbortSignal = (
-    cancelToken: CancelToken
+    cancelToken: CancelToken,
   ): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
-      const abortController = this.abortControllers.get(cancelToken)
+      const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
-        return abortController.signal
+        return abortController.signal;
       }
-      return void 0
+      return void 0;
     }
 
-    const abortController = new AbortController()
-    this.abortControllers.set(cancelToken, abortController)
-    return abortController.signal
-  }
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
 
   public abortRequest = (cancelToken: CancelToken) => {
-    const abortController = this.abortControllers.get(cancelToken)
+    const abortController = this.abortControllers.get(cancelToken);
 
     if (abortController) {
-      abortController.abort()
-      this.abortControllers.delete(cancelToken)
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
     }
-  }
+  };
 
   public request = async <T = any, E = any>({
     body,
@@ -438,11 +479,11 @@ export class HttpClient<SecurityDataType = unknown> {
       ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
         this.securityWorker &&
         (await this.securityWorker(this.securityData))) ||
-      {}
-    const requestParams = this.mergeRequestParams(params, secureParams)
-    const queryString = query && this.toQueryString(query)
-    const payloadFormatter = this.contentFormatters[type || ContentType.Json]
-    const responseFormat = format || requestParams.format
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format || requestParams.format;
 
     return this.customFetch(
       `${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`,
@@ -462,37 +503,37 @@ export class HttpClient<SecurityDataType = unknown> {
           typeof body === "undefined" || body === null
             ? null
             : payloadFormatter(body),
-      }
+      },
     ).then(async (response) => {
-      const r = response as HttpResponse<T, E>
-      r.data = null as unknown as T
-      r.error = null as unknown as E
+      const r = response as HttpResponse<T, E>;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
 
-      const responseToParse = responseFormat ? response.clone() : response
+      const responseToParse = responseFormat ? response.clone() : response;
       const data = !responseFormat
         ? r
         : await responseToParse[responseFormat]()
             .then((data) => {
               if (r.ok) {
-                r.data = data
+                r.data = data;
               } else {
-                r.error = data
+                r.error = data;
               }
-              return r
+              return r;
             })
             .catch((e) => {
-              r.error = e
-              return r
-            })
+              r.error = e;
+              return r;
+            });
 
       if (cancelToken) {
-        this.abortControllers.delete(cancelToken)
+        this.abortControllers.delete(cancelToken);
       }
 
-      if (!response.ok) throw data
-      return data
-    })
-  }
+      if (!response.ok) throw data;
+      return data;
+    });
+  };
 }
 
 /**
@@ -515,11 +556,12 @@ export class Api<
      * @request POST:/auth/register
      */
     authControllerRegister: (data: RegisterDto, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<RegisterResponseDto, void>({
         path: `/auth/register`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -532,11 +574,33 @@ export class Api<
      * @request POST:/auth/login
      */
     authControllerLogin: (data: LoginDto, params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<AuthResponseDto, void>({
         path: `/auth/login`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerRefreshToken
+     * @summary Refresh an expired access token
+     * @request POST:/auth/refresh
+     */
+    authControllerRefreshToken: (
+      data: RefreshTokenDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<AuthResponseDto, void>({
+        path: `/auth/refresh`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -550,7 +614,7 @@ export class Api<
      */
     authControllerResetPassword: (
       data: ResetPasswordDto,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/auth/reset-password`,
@@ -570,7 +634,7 @@ export class Api<
      */
     authControllerConfirmReset: (
       data: ConfirmResetDto,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/auth/confirm-reset`,
@@ -591,7 +655,7 @@ export class Api<
      */
     authControllerChangePassword: (
       data: ChangePasswordDto,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/auth/change-password`,
@@ -601,7 +665,7 @@ export class Api<
         type: ContentType.Json,
         ...params,
       }),
-  }
+  };
   users = {
     /**
      * No description
@@ -615,9 +679,9 @@ export class Api<
     usersControllerGetMe: (params: RequestParams = {}) =>
       this.request<
         {
-          data?: UserResponseDto
+          data?: UserResponseDto;
           /** @example "User profile retrieved successfully" */
-          message?: string
+          message?: string;
         },
         void
       >({
@@ -663,7 +727,7 @@ export class Api<
         secure: true,
         ...params,
       }),
-  }
+  };
   sites = {
     /**
      * No description
@@ -677,9 +741,9 @@ export class Api<
     sitesControllerCreate: (data: CreateSiteDto, params: RequestParams = {}) =>
       this.request<
         {
-          data?: SiteResponseDto
+          data?: SiteResponseDto;
           /** @example "Portfolio created successfully" */
-          message?: string
+          message?: string;
         },
         void
       >({
@@ -704,9 +768,9 @@ export class Api<
     sitesControllerFindAll: (params: RequestParams = {}) =>
       this.request<
         {
-          data?: SiteSummaryResponseDto[]
+          data?: SiteSummaryResponseDto[];
           /** @example "Portfolios retrieved successfully" */
-          message?: string
+          message?: string;
         },
         void
       >({
@@ -729,9 +793,9 @@ export class Api<
     sitesControllerFindOne: (id: string, params: RequestParams = {}) =>
       this.request<
         {
-          data?: SiteResponseDto
+          data?: SiteResponseDto;
           /** @example "Portfolio retrieved successfully" */
-          message?: string
+          message?: string;
         },
         void
       >({
@@ -754,13 +818,13 @@ export class Api<
     sitesControllerUpdate: (
       id: string,
       data: UpdateSiteDto,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
-          data?: SiteResponseDto
+          data?: SiteResponseDto;
           /** @example "Portfolio updated successfully" */
-          message?: string
+          message?: string;
         },
         void
       >({
@@ -789,7 +853,7 @@ export class Api<
         secure: true,
         ...params,
       }),
-  }
+  };
   storage = {
     /**
      * @description Uploads an image file to the specified bucket. The file is stored under `userId/<timestamp>.<ext>`. Use this before creating a site to obtain the `storagePath` (and optionally `url`) to embed in the site payload.
@@ -806,11 +870,11 @@ export class Api<
          * Image file (jpeg, png, webp, gif, max 50 MB)
          * @format binary
          */
-        file: File
+        file: File;
         /** Target storage bucket */
-        bucket: "avatars" | "screenshots"
+        bucket: "avatars" | "screenshots";
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<UploadResponseDto, void>({
         path: `/storage/upload`,
@@ -833,7 +897,7 @@ export class Api<
      */
     storageControllerDeleteFile: (
       data: DeleteFileDto,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/storage/file`,
@@ -843,7 +907,7 @@ export class Api<
         type: ContentType.Json,
         ...params,
       }),
-  }
+  };
   ai = {
     /**
      * No description
@@ -860,9 +924,9 @@ export class Api<
          * PDF CV file (max 5 MB)
          * @format binary
          */
-        file: File
+        file: File;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/ai/analyze-cv`,
@@ -872,7 +936,7 @@ export class Api<
         type: ContentType.FormData,
         ...params,
       }),
-  }
+  };
   generator = {
     /**
      * No description
@@ -907,5 +971,5 @@ export class Api<
         secure: true,
         ...params,
       }),
-  }
+  };
 }

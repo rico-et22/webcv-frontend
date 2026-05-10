@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import leadImage from "@/assets/lead.png"
+import { useAuth } from "@/lib/auth-context"
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   const { t } = useTranslation()
+  const { user } = useAuth()
 
   return (
     <div className="flex min-h-[calc(100svh-4rem)] flex-col items-center justify-start px-4 pt-20 pb-16 sm:pt-28 sm:pb-24">
@@ -37,7 +39,7 @@ function LandingPage() {
           className="bg-brand-gradient mt-2 h-12 gap-2 rounded-full border-0 px-8 text-base text-white shadow-lg transition-opacity hover:opacity-90"
           asChild
         >
-          <Link to="/">
+          <Link to={user ? "/dashboard" : "/register"}>
             {t("landing.cta")}
             <ArrowRight className="size-5" />
           </Link>

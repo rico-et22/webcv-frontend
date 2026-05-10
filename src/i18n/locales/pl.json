@@ -1,7 +1,9 @@
 {
   "nav": {
     "login": "Zaloguj",
-    "register": "Zarejestruj"
+    "register": "Zarejestruj",
+    "logout": "Wyloguj",
+    "dashboard": "Panel"
   },
   "landing": {
     "headline": "Twoja wizytówka w sieci",
@@ -13,5 +15,71 @@
   "notFound": {
     "title": "Nie znaleziono strony",
     "cta": "Powrót na stronę główną"
+  },
+  "auth": {
+    "login": {
+      "title": "Zaloguj się",
+      "email": "Adres e-mail",
+      "password": "Hasło",
+      "submit": "Zaloguj",
+      "pending": "Logowanie...",
+      "success": "Zalogowano pomyślnie",
+      "error": "Nieprawidłowy e-mail lub hasło",
+      "invalidResponse": "Nieprawidłowy format odpowiedzi serwera",
+      "forgotPassword": "Nie pamiętasz hasła?",
+      "noAccount": "Nie masz konta? Zarejestruj się"
+    },
+    "register": {
+      "title": "Zarejestruj się",
+      "email": "Adres e-mail",
+      "password": "Hasło",
+      "submit": "Zarejestruj",
+      "pending": "Rejestracja...",
+      "success": "Zarejestrowano. Sprawdź swoją skrzynkę e-mail.",
+      "successTitle": "Sprawdź swoją skrzynkę",
+      "successDescription": "Wysłaliśmy link potwierdzający na podany adres e-mail. Kliknij go, aby aktywować konto.",
+      "backToLogin": "Przejdź do logowania",
+      "error": "Wystąpił błąd podczas rejestracji",
+      "hasAccount": "Masz już konto? Zaloguj się"
+    },
+    "forgotPassword": {
+      "title": "Zresetuj hasło",
+      "description": "Podaj swój adres e-mail, a wyślemy Ci link do resetowania hasła.",
+      "email": "Adres e-mail",
+      "submit": "Wyślij link",
+      "pending": "Wysyłanie...",
+      "success": "Jeśli ten e-mail istnieje w naszej bazie, link został wysłany.",
+      "error": "Wystąpił błąd",
+      "backToLogin": "Wróć do logowania"
+    },
+    "resetPassword": {
+      "title": "Nowe hasło",
+      "description": "Wpisz swoje nowe hasło.",
+      "newPassword": "Nowe hasło",
+      "submit": "Zmień hasło",
+      "pending": "Zmienianie...",
+      "success": "Hasło zostało pomyślnie zmienione.",
+      "error": "Link wygasł lub jest nieprawidłowy.",
+      "backToLogin": "Wróć do logowania"
+    },
+    "validation": {
+      "emailRequired": "E-mail jest wymagany",
+      "emailInvalid": "Nieprawidłowy format e-mail",
+      "passwordRequired": "Hasło jest wymagane",
+      "passwordMin": "Hasło musi mieć co najmniej 8 znaków"
+    },
+    "session": {
+      "expired": "Sesja wygasła. Zaloguj się ponownie.",
+      "unauthorized": "Brak dostępu. Zaloguj się."
+    },
+    "callback": {
+      "success": "Konto zostało pomyślnie zweryfikowane.",
+      "error": "Wystąpił błąd weryfikacji. Zaloguj się ponownie.",
+      "loading": "Weryfikacja...",
+      "successTitle": "Rejestracja zakończona",
+      "successDescription": "Twój adres e-mail został potwierdzony. Możesz się teraz zalogować.",
+      "errorTitle": "Błąd weryfikacji",
+      "errorDescription": "Link jest nieprawidłowy lub wygasł."
+    }
   }
 }
