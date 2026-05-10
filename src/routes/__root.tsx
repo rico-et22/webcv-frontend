@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
@@ -15,7 +16,12 @@ function RootLayout() {
         <Outlet />
       </main>
       <Footer />
-      {import.meta.env.DEV && <TanStackRouterDevtools />}
+      {import.meta.env.DEV && (
+        <>
+          <TanStackRouterDevtools position="bottom-left" />
+          <ReactQueryDevtools buttonPosition="bottom-right" />
+        </>
+      )}
     </>
   )
 }

@@ -23,7 +23,9 @@ function LandingPage() {
         <h1 className="text-5xl leading-tight font-bold tracking-tight sm:text-6xl lg:text-7xl">
           {t("landing.headline")}
           <br />
-          <span className="text-gradient">{t("landing.headlineHighlight")}</span>
+          <span className="text-gradient">
+            {t("landing.headlineHighlight")}
+          </span>
         </h1>
 
         <p className="max-w-xl text-lg text-muted-foreground sm:text-xl">
@@ -52,7 +54,7 @@ function LandingPage() {
         <img
           src={leadImage}
           alt={t("landing.leadImageAlt")}
-          className="w-full rounded-2xl shadow-2xl shadow-black/10 ring-1 ring-border"
+          className="w-full rounded-2xl shadow-2xl ring-1 shadow-black/10 ring-border"
           width={1400}
           height={700}
         />

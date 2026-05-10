@@ -22,6 +22,8 @@ The application targets Polish-speaking users (UI language: Polish only), with i
 | Language       | TypeScript 5.9 (strict mode)                                |
 | Build          | Vite 7 (`@vitejs/plugin-react`)                             |
 | Routing        | TanStack Router (file-based, auto code-splitting)            |
+| State/Fetching | TanStack Query v5 (`@tanstack/react-query`)                 |
+| API Client     | `swagger-typescript-api` (auto-generated from NestJS)       |
 | Styling        | Tailwind CSS v4 (`@tailwindcss/vite` plugin)                |
 | UI Components  | shadcn/ui (Radix primitives, `radix-luma` style, `mist` base color) |
 | Forms          | react-hook-form                                              |
@@ -41,6 +43,7 @@ pnpm typecheck    # Type-check only (tsc --noEmit)
 pnpm lint         # ESLint
 pnpm format       # Prettier (write mode)
 pnpm preview      # Preview production build locally
+pnpm generate:api # Generate API client from backend Swagger JSON
 ```
 
 ---
@@ -157,7 +160,8 @@ webcv-frontend/
 4. **Gradient button borders** — gradient buttons use `border-0` to avoid Tailwind's default `bg-clip-padding` clipping the gradient.
 5. **Paper texture z-index** — the `body::after` pseudo-element sits at `z-index: 9999` with `pointer-events: none`. This is intentional to overlay the texture across the entire page without blocking interactions.
 6. **pnpm** — always use `pnpm` (not npm/yarn). Lock file is `pnpm-lock.yaml`.
-7. **No `.env` files** — environment config is not yet set up. When adding, use Vite's `import.meta.env` (prefix `VITE_`).
+7. **Environment Variables** — `.env` is ignored. Copy `.env.example` to `.env`. Access via `import.meta.env.VITE_*`.
+8. **API Integration** — Always use the auto-generated `apiClient` from `src/api/client.ts` combined with TanStack Query. Do not write manual `fetch` calls. Run `pnpm generate:api` if the backend Swagger changes. Note: `refetchOnWindowFocus` is set to `false` globally to prevent surprise re-renders/lost state in forms.
 
 ---
 
