@@ -1,0 +1,136 @@
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { useTranslation } from "react-i18next"
+import { useForm, FormProvider } from "react-hook-form"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "@/api/client"
+import type { CreateSiteDto } from "@/api/index"
+import { toast } from "sonner"
+import { ArrowLeft, Save, Monitor } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { SiteForm } from "@/components/sites/SiteForm"
+import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard"
+
+export const Route = createFileRoute("/sites/create")({
+  component: CreateSitePage,
+})
+
+function CreateSitePage() {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+
+  const methods = useForm<CreateSiteDto>({
+    defaultValues: {
+      fullName: "",
+      jobTitle: "",
+      location: "",
+      bio: "",
+      avatarUrl: "",
+      avatarStoragePath: "",
+      contacts: {},
+      skills: [],
+      experience: [],
+      education: [],
+      projects: [],
+      achievements: [],
+    },
+  })
+
+  const { handleSubmit, setValue, formState: { isSubmitting } } = methods
+
+  const createMutation = useMutation({
+    mutationFn: (data: CreateSiteDto) =>
+      apiClient.sites.sitesControllerCreate(data).then((r) => r.data),
+    onSuccess: (res) => {
+      const siteId = res.data?.id
+      if (siteId) {
+        methods.reset() // clear isDirty before navigation to prevent confirm dialog
+        navigate({ to: "/sites/$siteId/edit", params: { siteId } })
+      }
+    },
+    onError: () => {
+      toast.error(t("sites.createError"))
+    },
+  })
+
+  const onSubmit = (data: CreateSiteDto) => {
+    createMutation.mutate(data)
+  }
+
+  const handleAiApply = (partial: Partial<CreateSiteDto>) => {
+    for (const [key, value] of Object.entries(partial)) {
+      setValue(key as keyof CreateSiteDto, value as never)
+    }
+    toast.success(t("sites.saved"))
+  }
+
+  const isBusy = isSubmitting || createMutation.isPending
+
+  // Guard unsaved changes — form is dirty once any field is touched
+  useUnsavedChangesGuard(methods.formState.isDirty && !createMutation.isSuccess)
+
+  return (
+    <div className="flex flex-1 flex-col min-h-0">
+      {/* Top bar */}
+      <div className="flex shrink-0 items-center justify-between border-b border-border/60 bg-white px-4 py-3 sm:px-6">
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          id="back-to-sites-link"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t("sites.backToSites")}
+        </Link>
+
+        <span className="text-sm font-semibold text-gray-800">
+          {t("sites.newSite")}
+        </span>
+
+        <Button
+          form="site-form"
+          type="submit"
+          disabled={isBusy}
+          className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
+          id="create-site-submit-btn"
+        >
+          {isBusy ? (
+            <>
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              {t("sites.saving")}
+            </>
+          ) : (
+            <>
+              <Save className="h-4 w-4" />
+              {t("sites.save")}
+            </>
+          )}
+        </Button>
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-1 min-h-0 overflow-hidden">
+        {/* Form panel */}
+        <FormProvider {...methods}>
+          <form
+            id="site-form"
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full overflow-y-auto p-6 lg:w-[500px] lg:shrink-0 lg:border-r lg:border-border/60"
+          >
+            <SiteForm onAiApply={handleAiApply} />
+          </form>
+        </FormProvider>
+
+        {/* Preview panel – desktop only, empty state on create */}
+        <div className="hidden flex-1 overflow-y-auto items-center justify-center bg-slate-50 lg:flex">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
+              <Monitor className="h-9 w-9 text-slate-300" />
+            </div>
+            <p className="max-w-xs text-sm text-muted-foreground">
+              {t("sites.previewPlaceholder")}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
