@@ -5,6 +5,12 @@
     "logout": "Wyloguj",
     "dashboard": "Panel"
   },
+  "dashboard": {
+    "menu": {
+      "sites": "Moje strony",
+      "settings": "Ustawienia"
+    }
+  },
   "landing": {
     "headline": "Twoja wizytówka w sieci",
     "headlineHighlight": "z Twojego CV",

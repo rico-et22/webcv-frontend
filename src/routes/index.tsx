@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute, Link, redirect } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -6,6 +6,14 @@ import leadImage from "@/assets/lead.png"
 import { useAuth } from "@/lib/auth-context"
 
 export const Route = createFileRoute("/")({
+  beforeLoad: () => {
+    const token = localStorage.getItem("accessToken")
+    if (token) {
+      throw redirect({
+        to: "/dashboard",
+      })
+    }
+  },
   component: LandingPage,
 })
 

@@ -18,7 +18,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 sm:px-10">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
+        <Link to={user ? "/dashboard" : "/"} className="flex items-center">
           <img
             src={logoUrl}
             alt="webCV"
