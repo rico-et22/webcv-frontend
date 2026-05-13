@@ -121,7 +121,7 @@ function CreateSitePage() {
           <form
             id="site-form"
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full overflow-y-auto p-6 lg:w-[500px] lg:shrink-0 lg:border-r lg:border-border/60"
+            className="w-full overflow-y-auto p-6 lg:w-[500px] xl:w-[600px] 2xl:w-[700px] lg:shrink-0 lg:border-r lg:border-border/60"
           >
             <SiteForm onAiApply={handleAiApply} />
           </form>
