@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { useForm, FormProvider } from "react-hook-form"
@@ -47,13 +48,19 @@ function CreateSitePage() {
       if (siteId) {
         queryClient.invalidateQueries({ queryKey: ["sites"] })
         methods.reset() // clear isDirty before navigation to prevent confirm dialog
-        navigate({ to: "/sites/$siteId/edit", params: { siteId } })
       }
     },
     onError: () => {
       toast.error(t("sites.createError"))
     },
   })
+
+  // Navigate after render so the guard is definitively disabled
+  useEffect(() => {
+    if (createMutation.isSuccess && createMutation.data?.data?.id) {
+      navigate({ to: "/sites/$siteId/edit", params: { siteId: createMutation.data.data.id } })
+    }
+  }, [createMutation.isSuccess, createMutation.data, navigate])
 
   const onSubmit = (data: CreateSiteDto) => {
     createMutation.mutate(data)
