@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { useForm, FormProvider } from "react-hook-form"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { apiClient } from "@/api/client"
 import type { CreateSiteDto } from "@/api/index"
 import { toast } from "sonner"
@@ -17,6 +17,7 @@ export const Route = createFileRoute("/sites/create")({
 function CreateSitePage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const methods = useForm<CreateSiteDto>({
     mode: "onChange",
@@ -44,6 +45,7 @@ function CreateSitePage() {
     onSuccess: (res) => {
       const siteId = res.data?.id
       if (siteId) {
+        queryClient.invalidateQueries({ queryKey: ["sites"] })
         methods.reset() // clear isDirty before navigation to prevent confirm dialog
         navigate({ to: "/sites/$siteId/edit", params: { siteId } })
       }
