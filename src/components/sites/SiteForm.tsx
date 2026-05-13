@@ -276,14 +276,14 @@ function ExperienceSection() {
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-3 items-end">
-            <Field label={t("sites.form.company")} className="col-span-2">
-              <Input {...register(`experience.${i}.company`)} />
+            <Field label={t("sites.form.company")} required error={errors.experience?.[i]?.company?.message} className="col-span-2">
+              <Input {...register(`experience.${i}.company`, { required: t("sites.form.required") })} />
             </Field>
-            <Field label={t("sites.form.role")} className="col-span-2">
-              <Input {...register(`experience.${i}.role`)} />
+            <Field label={t("sites.form.role")} required error={errors.experience?.[i]?.role?.message} className="col-span-2">
+              <Input {...register(`experience.${i}.role`, { required: t("sites.form.required") })} />
             </Field>
-            <Field label={t("sites.form.startDate")}>
-              <Input {...register(`experience.${i}.startDate`)} placeholder="2022-01" />
+            <Field label={t("sites.form.startDate")} required error={errors.experience?.[i]?.startDate?.message}>
+              <Input {...register(`experience.${i}.startDate`, { required: t("sites.form.required") })} placeholder="2022-01" />
             </Field>
             <Field label={t("sites.form.endDateOptional")}>
               <Input {...register(`experience.${i}.endDate`)} placeholder="2024-06" />
@@ -316,7 +316,7 @@ function ExperienceSection() {
 // ------- Education -------
 function EducationSection() {
   const { t } = useTranslation()
-  const { register, control } = useFormContext<CreateSiteDto>()
+  const { register, control, formState: { errors } } = useFormContext<CreateSiteDto>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "education",
@@ -344,14 +344,14 @@ function EducationSection() {
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-3 items-end">
-            <Field label={t("sites.form.institution")} className="col-span-2 ">
-              <Input {...register(`education.${i}.institution`)} />
+            <Field label={t("sites.form.institution")} required error={errors.education?.[i]?.institution?.message} className="col-span-2">
+              <Input {...register(`education.${i}.institution`, { required: t("sites.form.required") })} />
             </Field>
-            <Field label={t("sites.form.degree")} className="col-span-2">
-              <Input {...register(`education.${i}.degree`)} />
+            <Field label={t("sites.form.degree")} required error={errors.education?.[i]?.degree?.message} className="col-span-2">
+              <Input {...register(`education.${i}.degree`, { required: t("sites.form.required") })} />
             </Field>
-            <Field label={t("sites.form.startDate")}>
-              <Input {...register(`education.${i}.startDate`)} placeholder="2023-10" />
+            <Field label={t("sites.form.startDate")} required error={errors.education?.[i]?.startDate?.message}>
+              <Input {...register(`education.${i}.startDate`, { required: t("sites.form.required") })} placeholder="2023-10" />
             </Field>
             <Field label={t("sites.form.endDateOptional")}>
               <Input {...register(`education.${i}.endDate`)} placeholder="2027-06" />
@@ -383,7 +383,7 @@ function ProjectItem({
   onRemove: () => void
 }) {
   const { t } = useTranslation()
-  const { register, setValue } = useFormContext<CreateSiteDto>()
+  const { register, setValue, formState: { errors } } = useFormContext<CreateSiteDto>()
   const storagePath = useWatch({
     name: `projects.${index}.imageStoragePath` as const,
   }) as string | undefined
@@ -403,8 +403,8 @@ function ProjectItem({
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-3">
-        <Field label={t("sites.form.projectName")} >
-          <Input {...register(`projects.${index}.name`)} />
+        <Field label={t("sites.form.projectName")} required error={errors.projects?.[index]?.name?.message}>
+          <Input {...register(`projects.${index}.name`, { required: t("sites.form.required") })} />
         </Field>
         <Field label={t("sites.form.projectUrl")}>
           <Input {...register(`projects.${index}.url`)} type="url" />
@@ -459,7 +459,7 @@ function ProjectsSection() {
 // ------- Achievements -------
 function AchievementsSection() {
   const { t } = useTranslation()
-  const { register, control } = useFormContext<CreateSiteDto>()
+  const { register, control, formState: { errors } } = useFormContext<CreateSiteDto>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "achievements",
@@ -486,8 +486,8 @@ function AchievementsSection() {
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
-          <Field label={t("sites.form.achievementTitle")}>
-            <Input {...register(`achievements.${i}.title`)} />
+          <Field label={t("sites.form.achievementTitle")} required error={errors.achievements?.[i]?.title?.message}>
+            <Input {...register(`achievements.${i}.title`, { required: t("sites.form.required") })} />
           </Field>
           <Field label={t("sites.form.description")}>
             <Textarea

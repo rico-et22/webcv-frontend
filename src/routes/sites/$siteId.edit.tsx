@@ -27,6 +27,7 @@ function EditSitePage() {
   const [isDownloading, setIsDownloading] = useState(false)
 
   const methods = useForm<CreateSiteDto>({
+    mode: "onChange",
     defaultValues: {
       fullName: "",
       jobTitle: "",
@@ -43,7 +44,7 @@ function EditSitePage() {
     },
   })
 
-  const { handleSubmit, reset, setValue, formState: { isSubmitting } } = methods
+  const { handleSubmit, reset, setValue, formState: { isSubmitting, isValid } } = methods
 
   // Fetch existing site data
   const { data: siteData, isLoading } = useQuery({
@@ -165,7 +166,7 @@ function EditSitePage() {
           {siteName}
         </span>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Mobile: preview button */}
           <Button
             type="button"
@@ -192,11 +193,18 @@ function EditSitePage() {
             {t("sites.publish")}
           </Button>
 
+          {/* Validation Warning */}
+          {!isValid && (
+            <span className="hidden sm:inline text-xs font-medium text-destructive">
+              {t("sites.form.checkForm")}
+            </span>
+          )}
+
           {/* Save */}
           <Button
             form="site-form-edit"
             type="submit"
-            disabled={isBusy}
+            disabled={isBusy || !isValid}
             className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
             id="edit-site-submit-btn"
           >

@@ -93,7 +93,8 @@
       "uploadImage": "Wgraj obraz",
       "removeImage": "Usuń zdjęcie",
       "imageError": "Niedozwolony format lub plik jest za duży (maks. 50 MB, jpeg/png/webp/gif)",
-      "required": "wymagane"
+      "required": "wymagane",
+      "checkForm": "Sprawdź poprawność formularza"
     },
     "ai": {
       "banner": "Asystent AI wypełni pola za Ciebie!",

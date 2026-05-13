@@ -19,6 +19,7 @@ function CreateSitePage() {
   const navigate = useNavigate()
 
   const methods = useForm<CreateSiteDto>({
+    mode: "onChange",
     defaultValues: {
       fullName: "",
       jobTitle: "",
@@ -35,7 +36,7 @@ function CreateSitePage() {
     },
   })
 
-  const { handleSubmit, setValue, formState: { isSubmitting } } = methods
+  const { handleSubmit, setValue, formState: { isSubmitting, isValid } } = methods
 
   const createMutation = useMutation({
     mutationFn: (data: CreateSiteDto) =>
@@ -85,25 +86,32 @@ function CreateSitePage() {
           {t("sites.newSite")}
         </span>
 
-        <Button
-          form="site-form"
-          type="submit"
-          disabled={isBusy}
-          className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
-          id="create-site-submit-btn"
-        >
-          {isBusy ? (
-            <>
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              {t("sites.saving")}
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" />
-              {t("sites.save")}
-            </>
+        <div className="flex items-center gap-3">
+          {!isValid && (
+            <span className="hidden sm:inline text-xs font-medium text-destructive">
+              {t("sites.form.checkForm")}
+            </span>
           )}
-        </Button>
+          <Button
+            form="site-form"
+            type="submit"
+            disabled={isBusy || !isValid}
+            className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
+            id="create-site-submit-btn"
+          >
+            {isBusy ? (
+              <>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                {t("sites.saving")}
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                {t("sites.save")}
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Body */}
