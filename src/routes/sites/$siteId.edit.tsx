@@ -44,7 +44,7 @@ function EditSitePage() {
     },
   })
 
-  const { handleSubmit, reset, setValue, formState: { isSubmitting, isValid } } = methods
+  const { handleSubmit, reset, setValue, trigger, formState: { isSubmitting, isValid } } = methods
 
   // Fetch existing site data
   const { data: siteData, isLoading } = useQuery({
@@ -101,10 +101,18 @@ function EditSitePage() {
     saveMutation.mutate(payload)
   }
 
-  const handleAiApply = (partial: Partial<CreateSiteDto>) => {
+  const handleAiApply = async (partial: Partial<CreateSiteDto>) => {
     for (const [key, value] of Object.entries(partial)) {
-      setValue(key as keyof CreateSiteDto, value as never)
+      setValue(key as keyof CreateSiteDto, value as never, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
     }
+    // Wait for the next tick so dynamically added array fields mount and register validation rules.
+    setTimeout(() => {
+      trigger()
+    }, 100)
     toast.success(t("sites.saved"))
   }
 

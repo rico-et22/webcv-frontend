@@ -36,7 +36,7 @@ function CreateSitePage() {
     },
   })
 
-  const { handleSubmit, setValue, formState: { isSubmitting, isValid } } = methods
+  const { handleSubmit, setValue, trigger, formState: { isSubmitting, isValid } } = methods
 
   const createMutation = useMutation({
     mutationFn: (data: CreateSiteDto) =>
@@ -57,10 +57,18 @@ function CreateSitePage() {
     createMutation.mutate(data)
   }
 
-  const handleAiApply = (partial: Partial<CreateSiteDto>) => {
+  const handleAiApply = async (partial: Partial<CreateSiteDto>) => {
     for (const [key, value] of Object.entries(partial)) {
-      setValue(key as keyof CreateSiteDto, value as never)
+      setValue(key as keyof CreateSiteDto, value as never, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
     }
+    // Wait for the next tick so dynamically added array fields mount and register validation rules.
+    setTimeout(() => {
+      trigger()
+    }, 100)
     toast.success(t("sites.saved"))
   }
 
