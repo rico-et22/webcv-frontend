@@ -275,11 +275,11 @@ function ExperienceSection() {
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label={t("sites.form.company")} className="col-span-2 sm:col-span-1">
+          <div className="grid grid-cols-2 gap-3 items-end">
+            <Field label={t("sites.form.company")} className="col-span-2">
               <Input {...register(`experience.${i}.company`)} />
             </Field>
-            <Field label={t("sites.form.role")} className="col-span-2 sm:col-span-1">
+            <Field label={t("sites.form.role")} className="col-span-2">
               <Input {...register(`experience.${i}.role`)} />
             </Field>
             <Field label={t("sites.form.startDate")}>
@@ -343,11 +343,11 @@ function EducationSection() {
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label={t("sites.form.institution")} className="col-span-2 sm:col-span-1">
+          <div className="grid grid-cols-2 gap-3 items-end">
+            <Field label={t("sites.form.institution")} className="col-span-2 ">
               <Input {...register(`education.${i}.institution`)} />
             </Field>
-            <Field label={t("sites.form.degree")} className="col-span-2 sm:col-span-1">
+            <Field label={t("sites.form.degree")} className="col-span-2">
               <Input {...register(`education.${i}.degree`)} />
             </Field>
             <Field label={t("sites.form.startDate")}>
@@ -402,11 +402,11 @@ function ProjectItem({
           <Trash2 className="h-3.5 w-3.5" />
         </Button>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Field label={t("sites.form.projectName")} className="col-span-2 sm:col-span-1">
+      <div className="grid grid-cols-1 gap-3">
+        <Field label={t("sites.form.projectName")} >
           <Input {...register(`projects.${index}.name`)} />
         </Field>
-        <Field label={t("sites.form.projectUrl")} className="col-span-2 sm:col-span-1">
+        <Field label={t("sites.form.projectUrl")}>
           <Input {...register(`projects.${index}.url`)} type="url" />
         </Field>
       </div>
