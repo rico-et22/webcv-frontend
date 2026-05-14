@@ -44,7 +44,13 @@ function EditSitePage() {
     },
   })
 
-  const { handleSubmit, reset, setValue, trigger, formState: { isSubmitting, isValid } } = methods
+  const {
+    handleSubmit,
+    reset,
+    setValue,
+    trigger,
+    formState: { isSubmitting, isValid },
+  } = methods
 
   // Fetch existing site data
   const { data: siteData, isLoading } = useQuery({
@@ -158,77 +164,84 @@ function EditSitePage() {
   }
 
   return (
-    <div className="flex flex-1 flex-col min-h-0">
+    <div className="flex min-h-0 flex-1 flex-col">
       {/* Top bar */}
-      <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border/60 bg-white px-4 py-3 sm:px-6">
-        <Link
-          to="/dashboard"
-          className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          id="back-to-sites-link-edit"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span className="hidden sm:inline">{t("sites.backToSites")}</span>
-        </Link>
-
-        <span className="truncate text-sm font-semibold text-gray-800">
-          {siteName}
-        </span>
-
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Mobile: preview button */}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="gap-1.5 lg:hidden"
-            onClick={() => setMobilePreviewOpen(true)}
-            id="mobile-preview-btn"
+      <div className="flex shrink-0 flex-col gap-2 border-b border-border/60 bg-white px-4 py-3 sm:px-6">
+        <div className="flex shrink-0 items-center justify-between">
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            id="back-to-sites-link-edit"
           >
-            <Eye className="h-4 w-4" />
-            {t("sites.preview")}
-          </Button>
+            <ArrowLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("sites.backToSites")}</span>
+          </Link>
 
-          {/* Export/Publish */}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="hidden gap-1.5 sm:flex"
-            onClick={() => setPublishOpen(true)}
-            id="publish-btn"
-          >
-            <Upload className="h-4 w-4" />
-            {t("sites.publish")}
-          </Button>
+          <span className="truncate text-sm font-semibold text-gray-800">
+            {siteName}
+          </span>
 
-          {/* Validation Warning */}
-          {!isValid && (
-            <span className="hidden sm:inline text-xs font-medium text-destructive">
-              {t("sites.form.checkForm")}
-            </span>
-          )}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Mobile: preview button */}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5 lg:hidden"
+              onClick={() => setMobilePreviewOpen(true)}
+              id="mobile-preview-btn"
+            >
+              <Eye className="h-4 w-4" />
+              {t("sites.preview")}
+            </Button>
 
-          {/* Save */}
-          <Button
-            form="site-form-edit"
-            type="submit"
-            disabled={isBusy || !isValid}
-            className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
-            id="edit-site-submit-btn"
-          >
-            {isBusy ? (
-              <>
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                <span className="hidden sm:inline">{t("sites.saving")}</span>
-              </>
-            ) : (
-              <>
-                <Save className="h-4 w-4" />
-                <span className="hidden sm:inline">{t("sites.save")}</span>
-              </>
+            {/* Export/Publish */}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="hidden gap-1.5 sm:flex"
+              onClick={() => setPublishOpen(true)}
+              id="publish-btn"
+            >
+              <Upload className="h-4 w-4" />
+              {t("sites.publish")}
+            </Button>
+
+            {/* Validation Warning */}
+            {!isValid && (
+              <span className="hidden text-xs font-medium text-destructive sm:inline">
+                {t("sites.form.checkForm")}
+              </span>
             )}
-          </Button>
+
+            {/* Save */}
+            <Button
+              form="site-form-edit"
+              type="submit"
+              disabled={isBusy || !isValid}
+              className="bg-brand-gradient gap-2 border-0 text-white hover:opacity-90"
+              id="edit-site-submit-btn"
+            >
+              {isBusy ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <span className="hidden sm:inline">{t("sites.saving")}</span>
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t("sites.save")}</span>
+                </>
+              )}
+            </Button>
+          </div>
         </div>
+        {!isValid && (
+          <p className="text-right text-xs font-medium text-destructive sm:hidden">
+            {t("sites.form.checkForm")}
+          </p>
+        )}
       </div>
 
       {/* Mobile publish button (below header on small screens) */}
@@ -247,13 +260,13 @@ function EditSitePage() {
       </div>
 
       {/* Body */}
-      <div className="flex flex-1 min-h-0 overflow-hidden">
+      <div className="flex min-h-0 flex-1 overflow-hidden">
         {/* Form panel */}
         <FormProvider {...methods}>
           <form
             id="site-form-edit"
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full overflow-y-auto p-6 lg:w-[500px] xl:w-[600px] 2xl:w-[700px] lg:shrink-0 lg:border-r lg:border-border/60"
+            className="w-full overflow-y-auto p-6 lg:w-[500px] lg:shrink-0 lg:border-r lg:border-border/60 xl:w-[600px] 2xl:w-[700px]"
           >
             <SiteForm onAiApply={handleAiApply} />
           </form>
@@ -268,7 +281,6 @@ function EditSitePage() {
           className="flex-1 overflow-hidden"
         />
       </div>
-
 
       {/* Publish modal */}
       <PublishModal
