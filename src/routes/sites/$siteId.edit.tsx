@@ -173,7 +173,7 @@ function EditSitePage() {
             className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             id="back-to-sites-link-edit"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 shrink-0" />
             <span className="hidden sm:inline">{t("sites.backToSites")}</span>
           </Link>
 
@@ -250,7 +250,7 @@ function EditSitePage() {
           type="button"
           variant="outline"
           size="sm"
-          className="gap-1.5"
+          className="ml-auto gap-1.5"
           onClick={() => setPublishOpen(true)}
           id="publish-btn-mobile"
         >

@@ -67,10 +67,7 @@ function PreviewFrame({
   if (loading) {
     return (
       <div
-        className={cn(
-          "flex items-center justify-center bg-gray-50",
-          className
-        )}
+        className={cn("flex items-center justify-center bg-gray-50", className)}
       >
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
       </div>
@@ -125,8 +122,8 @@ export function SitePreview({
 
       {/* Mobile: full-height modal */}
       <Dialog open={mobileOpen} onOpenChange={onMobileClose}>
-        <DialogContent className="h-[100dvh] max-h-[100dvh] w-full max-w-full rounded-none p-0 lg:hidden">
-          <DialogHeader className="flex flex-row items-center justify-between border-b px-4 py-3">
+        <DialogContent className="flex h-[100dvh] max-h-[100dvh] w-full max-w-full flex-col gap-0 rounded-none p-0 lg:hidden">
+          <DialogHeader className="flex h-fit flex-row items-center justify-between border-b px-4 py-3">
             <DialogTitle className="text-base">
               {t("sites.preview")}
             </DialogTitle>
@@ -144,7 +141,7 @@ export function SitePreview({
             html={html}
             loading={loading}
             error={error}
-            className="h-full w-full"
+            className="w-full flex-1"
           />
         </DialogContent>
       </Dialog>

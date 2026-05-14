@@ -104,7 +104,7 @@ function CreateSitePage() {
             className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             id="back-to-sites-link"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 shrink-0" />
             {t("sites.backToSites")}
           </Link>
 
