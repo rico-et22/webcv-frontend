@@ -21,7 +21,11 @@ interface SitePreviewProps {
 }
 
 function usePreviewHtml(siteId: string) {
-  const { data: html, isLoading: loading, isError: error } = useQuery({
+  const {
+    data: html,
+    isLoading: loading,
+    isError: error,
+  } = useQuery({
     queryKey: ["site-preview", siteId],
     queryFn: () =>
       apiClient.generator
@@ -76,7 +80,7 @@ function PreviewFrame({
     <iframe
       ref={iframeRef}
       srcDoc={html}
-      title="Podgląd strony"
+      title={t("sites.preview")}
       sandbox="allow-same-origin"
       className={cn("border-0 bg-white", className)}
     />
