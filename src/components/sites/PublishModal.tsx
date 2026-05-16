@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { useState } from "react"
+import { apiClient } from "@/api/client"
 
 interface PublishModalProps {
   open: boolean
@@ -24,15 +25,8 @@ export function PublishModal({ open, onClose, siteId }: PublishModalProps) {
   const handleDownload = async () => {
     setIsDownloading(true)
     try {
-      const token = localStorage.getItem("accessToken")
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/generator/zip/${siteId}`,
-        {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        }
-      )
-      if (!res.ok) throw new Error()
-      const blob = await res.blob()
+      const res = await apiClient.generator.generatorControllerZip(siteId)
+      const blob = await (res as unknown as Response).blob()
       const url = URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url
