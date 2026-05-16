@@ -1,4 +1,9 @@
-import { createRootRoute, Outlet, useNavigate, useLocation } from "@tanstack/react-router"
+import {
+  createRootRoute,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Header } from "@/components/header"
@@ -19,7 +24,7 @@ function RootLayout() {
   const location = useLocation()
   const { t } = useTranslation()
 
-  // Hide footer on site editor views (full-screen layout)
+  // Hide header and footer on site editor views (full-screen layout)
   const isSiteEditor = location.pathname.startsWith("/sites/")
 
   useEffect(() => {
@@ -41,7 +46,7 @@ function RootLayout() {
         )}
       >
         {!isSiteEditor && <Header />}
-        <main className="flex flex-1 flex-col min-h-0">
+        <main className="flex min-h-0 flex-1 flex-col">
           <Outlet />
         </main>
         {!isSiteEditor && <Footer />}
