@@ -133,7 +133,6 @@
   body {
     @apply bg-background text-foreground;
     position: relative;
-    z-index: 0;
   }
   /* Paper grain texture */
   body::after {

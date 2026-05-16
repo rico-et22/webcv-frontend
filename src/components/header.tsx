@@ -35,9 +35,6 @@ export function Header() {
               <span className="hidden sm:inline-block mr-2 text-sm text-muted-foreground">
                 {user.email}
               </span>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/dashboard">{t("nav.dashboard")}</Link>
-              </Button>
               <Button variant="outline" size="sm" onClick={handleLogout}>
                 {t("nav.logout")}
               </Button>

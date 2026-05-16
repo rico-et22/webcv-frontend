@@ -17,8 +17,10 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as SitesCreateRouteImport } from './routes/sites/create'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as SitesSiteIdEditRouteImport } from './routes/sites/$siteId.edit'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -60,6 +62,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const SitesCreateRoute = SitesCreateRouteImport.update({
+  id: '/sites/create',
+  path: '/sites/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -68,6 +75,11 @@ const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitesSiteIdEditRoute = SitesSiteIdEditRouteImport.update({
+  id: '/sites/$siteId/edit',
+  path: '/sites/$siteId/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -81,7 +93,9 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/sites/create': typeof SitesCreateRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -92,7 +106,9 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/sites/create': typeof SitesCreateRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -105,7 +121,9 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/sites/create': typeof SitesCreateRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -119,7 +137,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/dashboard/settings'
+    | '/sites/create'
     | '/dashboard/'
+    | '/sites/$siteId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -130,7 +150,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/dashboard/settings'
+    | '/sites/create'
     | '/dashboard'
+    | '/sites/$siteId/edit'
   id:
     | '__root__'
     | '/'
@@ -142,7 +164,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/dashboard/settings'
+    | '/sites/create'
     | '/dashboard/'
+    | '/sites/$siteId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -154,6 +178,8 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  SitesCreateRoute: typeof SitesCreateRoute
+  SitesSiteIdEditRoute: typeof SitesSiteIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -214,6 +240,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/sites/create': {
+      id: '/sites/create'
+      path: '/sites/create'
+      fullPath: '/sites/create'
+      preLoaderRoute: typeof SitesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/settings': {
       id: '/dashboard/settings'
       path: '/settings'
@@ -226,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/callback'
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sites/$siteId/edit': {
+      id: '/sites/$siteId/edit'
+      path: '/sites/$siteId/edit'
+      fullPath: '/sites/$siteId/edit'
+      preLoaderRoute: typeof SitesSiteIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -254,6 +294,8 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  SitesCreateRoute: SitesCreateRoute,
+  SitesSiteIdEditRoute: SitesSiteIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

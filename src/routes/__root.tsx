@@ -1,4 +1,9 @@
-import { createRootRoute, Outlet, useNavigate } from "@tanstack/react-router"
+import {
+  createRootRoute,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Header } from "@/components/header"
@@ -8,6 +13,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { useEffect } from "react"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
+import { cn } from "@/lib/utils"
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -15,7 +21,11 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation()
+
+  // Hide header and footer on site editor views (full-screen layout)
+  const isSiteEditor = location.pathname.startsWith("/sites/")
 
   useEffect(() => {
     const handleLogout = () => {
@@ -29,12 +39,17 @@ function RootLayout() {
 
   return (
     <AuthProvider>
-      <div className="flex min-h-[100svh] flex-col">
-        <Header />
-        <main className="flex flex-1 flex-col">
+      <div
+        className={cn(
+          "flex flex-col",
+          isSiteEditor ? "h-[100dvh] overflow-hidden" : "min-h-[100svh]"
+        )}
+      >
+        {!isSiteEditor && <Header />}
+        <main className="flex min-h-0 flex-1 flex-col">
           <Outlet />
         </main>
-        <Footer />
+        {!isSiteEditor && <Footer />}
       </div>
       <Toaster position="top-center" richColors />
       {import.meta.env.DEV && (

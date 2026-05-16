@@ -195,26 +195,26 @@ export interface SiteResponseDto {
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
   id: string;
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
-  user_id: string;
+  userId: string;
   /** @example "2026-01-01T12:00:00Z" */
-  created_at: string;
+  createdAt: string;
   /** @example "2026-01-01T12:00:00Z" */
-  updated_at: string;
+  updatedAt: string;
 }
 
 export interface SiteSummaryResponseDto {
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
   id: string;
   /** @example "Kamil Pawlak" */
-  full_name: string;
+  fullName: string;
   /** @example "Full-Stack Developer" */
-  job_title?: string;
+  jobTitle?: string;
   /** @example "https://example.com/avatar.png" */
-  avatar_url?: string;
+  avatarUrl?: string;
   /** @example "2026-01-01T12:00:00Z" */
-  created_at: string;
+  createdAt: string;
   /** @example "2026-01-01T12:00:00Z" */
-  updated_at: string;
+  updatedAt: string;
 }
 
 export interface CreateSiteDto {
@@ -261,11 +261,17 @@ export interface UpdateSiteDto {
   achievements?: AchievementDto[];
 }
 
-export interface UploadResponseDto {
+export interface UploadResponseDataDto {
   /** @example "https://xyz.supabase.co/storage/v1/object/public/avatars/user-id/avatar.png" */
   url: string;
   /** @example "user-id/avatar.png" */
   storagePath: string;
+}
+
+export interface UploadResponseDto {
+  data: UploadResponseDataDto;
+  /** @example "File uploaded successfully" */
+  message: string;
 }
 
 export interface DeleteFileDto {
@@ -279,6 +285,28 @@ export interface DeleteFileDto {
    * @example "avatars"
    */
   bucket: "avatars" | "screenshots";
+}
+
+export interface AnalyzeCvResponseDto {
+  /** @example "Kamil Pawlak" */
+  fullName: string;
+  /** @example "Full-Stack Developer" */
+  jobTitle?: string;
+  /** @example "Rzeszów, Poland" */
+  location?: string;
+  /** @example "Passionate developer with 3+ years of experience..." */
+  bio?: string;
+  contacts?: ContactDto;
+  /** @example ["TypeScript","NestJS","React"] */
+  skills?: string[];
+  experience?: ExperienceDto[];
+  education?: EducationDto[];
+}
+
+export interface AnalyzeCvEnvelopeDto {
+  data: AnalyzeCvResponseDto;
+  /** @example "CV analyzed successfully" */
+  message: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -928,12 +956,13 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<void, void>({
+      this.request<AnalyzeCvEnvelopeDto, void>({
         path: `/ai/analyze-cv`,
         method: "POST",
         body: data,
         secure: true,
         type: ContentType.FormData,
+        format: "json",
         ...params,
       }),
   };
