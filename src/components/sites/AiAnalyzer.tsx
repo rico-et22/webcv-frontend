@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
+import i18n from "@/i18n"
 
 type AiSection = keyof AnalyzeCvResponseDto
 
@@ -33,12 +34,18 @@ function renderValue(value: unknown, sectionKey: AiSection): string {
   if (typeof value === "string") return value || "—"
 
   // contacts: { email, phone, linkedin, github, website }
-  if (sectionKey === "contacts" && typeof value === "object" && !Array.isArray(value)) {
+  if (
+    sectionKey === "contacts" &&
+    typeof value === "object" &&
+    !Array.isArray(value)
+  ) {
     const c = value as Record<string, string>
-    return Object.entries(c)
-      .filter(([, v]) => v)
-      .map(([k, v]) => `${k}: ${v}`)
-      .join("\n") || "—"
+    return (
+      Object.entries(c)
+        .filter(([, v]) => v)
+        .map(([k, v]) => `${i18n.t(`sites.ai.contactKeys.${k}`)}: ${v}`)
+        .join("\n") || "—"
+    )
   }
 
   if (Array.isArray(value)) {
@@ -47,9 +54,22 @@ function renderValue(value: unknown, sectionKey: AiSection): string {
 
     // experience items
     if (sectionKey === "experience") {
-      return (value as Array<{ role?: string; company?: string; startDate?: string; endDate?: string; description?: string }>)
+      return (
+        value as Array<{
+          role?: string
+          company?: string
+          startDate?: string
+          endDate?: string
+          description?: string
+        }>
+      )
         .map((e) => {
-          const period = [e.startDate, e.endDate ?? "obecnie"].filter(Boolean).join(" – ")
+          const period = [
+            e.startDate,
+            e.endDate ?? i18n.t("sites.ai.currently"),
+          ]
+            .filter(Boolean)
+            .join(" – ")
           return `${e.role ?? ""} @ ${e.company ?? ""} (${period})${e.description ? "\n" + e.description : ""}`
         })
         .join("\n\n")
@@ -57,9 +77,21 @@ function renderValue(value: unknown, sectionKey: AiSection): string {
 
     // education items
     if (sectionKey === "education") {
-      return (value as Array<{ degree?: string; institution?: string; startDate?: string; endDate?: string }>)
+      return (
+        value as Array<{
+          degree?: string
+          institution?: string
+          startDate?: string
+          endDate?: string
+        }>
+      )
         .map((e) => {
-          const period = [e.startDate, e.endDate ?? "obecnie"].filter(Boolean).join(" – ")
+          const period = [
+            e.startDate,
+            e.endDate ?? i18n.t("sites.ai.currently"),
+          ]
+            .filter(Boolean)
+            .join(" – ")
           return `${e.degree ?? ""} @ ${e.institution ?? ""} (${period})`
         })
         .join("\n")
@@ -71,7 +103,6 @@ function renderValue(value: unknown, sectionKey: AiSection): string {
 
   return String(value)
 }
-
 
 function SectionRow({
   sectionKey,
@@ -111,20 +142,20 @@ function SectionRow({
           )}
           aria-label={
             selected
-              ? `Odznacz ${t(`sites.ai.sections.${sectionKey}`)}`
-              : `Zaznacz ${t(`sites.ai.sections.${sectionKey}`)}`
+              ? `${t("sites.ai.deselect")} ${t(`sites.ai.sections.${sectionKey}`)}`
+              : `${t("sites.ai.select")} ${t(`sites.ai.sections.${sectionKey}`)}`
           }
         >
           {selected && <Check className="h-3 w-3" />}
         </button>
 
-        <div className="flex-1 min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
             {t(`sites.ai.sections.${sectionKey}`)}
           </p>
           <pre
             className={cn(
-              "mt-1 whitespace-pre-wrap break-words font-sans text-sm text-foreground",
+              "mt-1 font-sans text-sm break-words whitespace-pre-wrap text-foreground",
               !expanded && isLong && "line-clamp-3"
             )}
           >
@@ -139,12 +170,12 @@ function SectionRow({
               {expanded ? (
                 <>
                   <ChevronUp className="h-3 w-3" />
-                  Zwiń
+                  {t("sites.ai.collapse")}
                 </>
               ) : (
                 <>
                   <ChevronDown className="h-3 w-3" />
-                  Rozwiń
+                  {t("sites.ai.expand")}
                 </>
               )}
             </button>
@@ -269,7 +300,6 @@ export function AiAnalyzer({ onApply }: AiAnalyzerProps) {
           </div>
         </div>
       </div>
-
 
       {/* Results dialog */}
       <Dialog open={open} onOpenChange={handleClose}>

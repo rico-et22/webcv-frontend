@@ -106,10 +106,13 @@
       "error": "Nie udało się przeanalizować CV",
       "modalTitle": "Dane z Twojego CV",
       "modalDesc": "Wybierz sekcje, które chcesz zaakceptować i wstawić do formularza.",
+      "select": "Zaznacz",
+      "deselect": "Odznacz",
       "acceptAll": "Zaakceptuj wszystko",
       "rejectAll": "Odrzuć",
       "apply": "Zastosuj zaznaczone",
       "pdfError": "Dozwolone tylko pliki PDF (maks. 5 MB)",
+      "currently": "obecnie",
       "sections": {
         "fullName": "Imię i nazwisko",
         "jobTitle": "Stanowisko",
@@ -119,7 +122,16 @@
         "skills": "Umiejętności",
         "experience": "Doświadczenie",
         "education": "Wykształcenie"
-      }
+      },
+      "contactKeys": {
+        "email": "E-mail",
+        "phone": "Telefon",
+        "linkedin": "LinkedIn",
+        "github": "GitHub",
+        "website": "Strona WWW"
+      },
+      "expand": "Rozwiń",
+      "collapse": "Zwiń"
     },
     "upload": {
       "dropzone": "Przeciągnij plik tutaj lub kliknij, aby wybrać",
