@@ -18,6 +18,14 @@ import i18n from "@/i18n"
 
 type AiSection = keyof AnalyzeCvResponseDto
 
+function hasSectionData(v: unknown): boolean {
+  if (v === null || v === undefined) return false
+  if (typeof v === "string") return v.trim().length > 0
+  if (Array.isArray(v)) return v.length > 0
+  if (typeof v === "object") return Object.keys(v).length > 0
+  return true
+}
+
 const SECTIONS: AiSection[] = [
   "fullName",
   "jobTitle",
@@ -205,14 +213,7 @@ export function AiAnalyzer({ onApply }: AiAnalyzerProps) {
       setResult(data)
       // Pre-select all sections that have data
       const initialSelected = new Set(
-        SECTIONS.filter((k) => {
-          const v = data[k]
-          if (v === null || v === undefined) return false
-          if (typeof v === "string") return v.trim().length > 0
-          if (Array.isArray(v)) return v.length > 0
-          if (typeof v === "object") return Object.keys(v).length > 0
-          return true
-        }) as AiSection[]
+        SECTIONS.filter((k) => hasSectionData(data[k])) as AiSection[]
       )
       setSelected(initialSelected)
       setOpen(true)
@@ -338,14 +339,7 @@ export function AiAnalyzer({ onApply }: AiAnalyzerProps) {
               </div>
 
               {/* Section rows */}
-              {SECTIONS.filter((k) => {
-                const v = result[k]
-                if (v === null || v === undefined) return false
-                if (typeof v === "string") return v.trim().length > 0
-                if (Array.isArray(v)) return v.length > 0
-                if (typeof v === "object") return Object.keys(v).length > 0
-                return true
-              }).map((key) => (
+              {SECTIONS.filter((k) => hasSectionData(result[k])).map((key) => (
                 <SectionRow
                   key={key}
                   sectionKey={key}
