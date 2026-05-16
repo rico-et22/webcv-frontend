@@ -18,6 +18,7 @@
       "edit": "Edytuj",
       "publish": "Opublikuj",
       "delete": "Usuń",
+      "error": "Nie udało się załadować stron. Spróbuj odświeżyć.",
       "createdAt": "Utworzono",
       "deleteConfirmTitle": "Usuń stronę",
       "deleteConfirmDesc": "Czy na pewno chcesz usunąć tę stronę? Tej operacji nie można cofnąć.",
@@ -50,6 +51,7 @@
       "step4Title": "Opcja 2 – GitHub Pages (darmowy hosting)",
       "step4": "Utwórz repozytorium na GitHubie, wgraj pliki i włącz GitHub Pages w ustawieniach repozytorium.",
       "download": "Pobierz ZIP",
+      "downloading": "Pobieranie...",
       "close": "Zamknij"
     },
     "form": {

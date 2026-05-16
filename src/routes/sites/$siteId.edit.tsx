@@ -24,7 +24,6 @@ function EditSitePage() {
   const [previewKey, setPreviewKey] = useState(0)
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false)
   const [publishOpen, setPublishOpen] = useState(false)
-  const [isDownloading, setIsDownloading] = useState(false)
 
   const methods = useForm<CreateSiteDto>({
     mode: "onChange",
@@ -120,31 +119,6 @@ function EditSitePage() {
       trigger()
     }, 100)
     toast.success(t("sites.saved"))
-  }
-
-  const handleDownload = async () => {
-    setIsDownloading(true)
-    try {
-      const token = localStorage.getItem("accessToken")
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/generator/zip/${siteId}`,
-        {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        }
-      )
-      if (!res.ok) throw new Error()
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `portfolio-${siteId}.zip`
-      a.click()
-      URL.revokeObjectURL(url)
-    } catch {
-      toast.error(t("sites.saveError"))
-    } finally {
-      setIsDownloading(false)
-    }
   }
 
   const fullName = useWatch({ control: methods.control, name: "fullName" })
@@ -286,8 +260,7 @@ function EditSitePage() {
       <PublishModal
         open={publishOpen}
         onClose={() => setPublishOpen(false)}
-        onDownload={handleDownload}
-        isDownloading={isDownloading}
+        siteId={siteId}
       />
     </div>
   )

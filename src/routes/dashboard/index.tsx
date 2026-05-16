@@ -26,11 +26,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
+import { PublishModal } from "@/components/sites/PublishModal"
 
 export const Route = createFileRoute("/dashboard/")({
   component: DashboardSites,
 })
-
 
 function SiteCard({
   site,
@@ -69,7 +69,7 @@ function SiteCard({
       {/* Content */}
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div>
-          <h2 className="text-base font-semibold leading-tight text-gray-900">
+          <h2 className="text-base leading-tight font-semibold text-gray-900">
             {site.fullName}
           </h2>
           {site.jobTitle && (
@@ -131,7 +131,7 @@ function DashboardSites() {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [publishingId, setPublishingId] = useState<string | null>(null)
+  const [publishingSiteId, setPublishingSiteId] = useState<string | null>(null)
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["sites"],
@@ -140,8 +140,7 @@ function DashboardSites() {
   })
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) =>
-      apiClient.sites.sitesControllerRemove(id),
+    mutationFn: (id: string) => apiClient.sites.sitesControllerRemove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sites"] })
       toast.success(t("dashboard.sites.deleteSuccess"))
@@ -153,41 +152,14 @@ function DashboardSites() {
     },
   })
 
-  const handlePublish = async (id: string) => {
-    setPublishingId(id)
-    try {
-      const token = localStorage.getItem("accessToken")
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/generator/zip/${id}`,
-        {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        }
-      )
-      if (!res.ok) throw new Error()
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `portfolio-${id}.zip`
-      a.click()
-      URL.revokeObjectURL(url)
-      // Show publish instructions modal (redirect to edit page with modal open)
-      // For dashboard, we navigate to edit with a flag
-    } catch {
-      toast.error(t("sites.saveError"))
-    } finally {
-      setPublishingId(null)
-    }
-  }
-
   const sites = data ?? []
 
   return (
-    <div className="space-y-6 animate-[fade-in-up_0.3s_ease_both]">
+    <div className="animate-[fade-in-up_0.3s_ease_both] space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gradient">
+          <div className="bg-brand-gradient flex h-10 w-10 items-center justify-center rounded-xl">
             <Globe className="h-5 w-5 text-white" />
           </div>
           <div>
@@ -199,7 +171,7 @@ function DashboardSites() {
 
         <Button
           asChild
-          className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
+          className="bg-brand-gradient gap-2 border-0 text-white hover:opacity-90"
           id="create-site-btn"
         >
           <Link to="/sites/create">
@@ -224,7 +196,7 @@ function DashboardSites() {
         </div>
       ) : isError ? (
         <div className="rounded-2xl bg-red-50 p-6 text-center text-sm text-red-600 ring-1 ring-red-100">
-          Nie udało się załadować stron. Spróbuj odświeżyć.
+          {t("dashboard.sites.error")}
         </div>
       ) : sites.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-border bg-white py-20 text-center">
@@ -241,7 +213,7 @@ function DashboardSites() {
           </div>
           <Button
             asChild
-            className="bg-brand-gradient border-0 text-white hover:opacity-90 gap-2"
+            className="bg-brand-gradient gap-2 border-0 text-white hover:opacity-90"
             id="create-first-site-btn"
           >
             <Link to="/sites/create">
@@ -257,7 +229,7 @@ function DashboardSites() {
               key={site.id}
               site={site}
               onDelete={setDeletingId}
-              onPublish={handlePublish}
+              onPublish={() => setPublishingSiteId(site.id)}
             />
           ))}
         </div>
@@ -289,17 +261,11 @@ function DashboardSites() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Publish loading indicator - invisible spinner while downloading */}
-      {publishingId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-          <div className="flex items-center gap-3 rounded-2xl bg-white px-6 py-4 shadow-xl ring-1 ring-black/10">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-            <span className="text-sm font-medium">
-              {t("sites.saving")}
-            </span>
-          </div>
-        </div>
-      )}
+      <PublishModal
+        open={!!publishingSiteId}
+        onClose={() => setPublishingSiteId(null)}
+        siteId={publishingSiteId || ""}
+      />
     </div>
   )
 }

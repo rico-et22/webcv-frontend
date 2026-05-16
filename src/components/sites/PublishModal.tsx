@@ -8,21 +8,43 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import { useState } from "react"
 
 interface PublishModalProps {
   open: boolean
   onClose: () => void
-  onDownload: () => void
-  isDownloading: boolean
+  siteId: string
 }
 
-export function PublishModal({
-  open,
-  onClose,
-  onDownload,
-  isDownloading,
-}: PublishModalProps) {
+export function PublishModal({ open, onClose, siteId }: PublishModalProps) {
   const { t } = useTranslation()
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    setIsDownloading(true)
+    try {
+      const token = localStorage.getItem("accessToken")
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/generator/zip/${siteId}`,
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
+      )
+      if (!res.ok) throw new Error()
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `portfolio-${siteId}.zip`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      toast.error(t("sites.saveError"))
+    } finally {
+      setIsDownloading(false)
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -35,13 +57,13 @@ export function PublishModal({
         <div className="flex flex-col gap-4">
           <ol className="flex flex-col gap-3 text-sm">
             <li className="flex items-start gap-3">
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-[11px] font-bold text-white">
+              <span className="bg-brand-gradient flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white">
                 1
               </span>
               <span>{t("sites.publishModal.step1")}</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-[11px] font-bold text-white">
+              <span className="bg-brand-gradient flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white">
                 2
               </span>
               <span>{t("sites.publishModal.step2")}</span>
@@ -50,7 +72,7 @@ export function PublishModal({
 
           {/* Option 1 – FTP */}
           <div className="rounded-xl border border-border bg-muted/40 p-4">
-            <div className="flex items-center gap-2 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-sm font-semibold">
               <FolderOpen className="h-4 w-4 text-primary" />
               {t("sites.publishModal.step3Title")}
             </div>
@@ -61,7 +83,7 @@ export function PublishModal({
 
           {/* Option 2 – GitHub Pages */}
           <div className="rounded-xl border border-border bg-muted/40 p-4">
-            <div className="flex items-center gap-2 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-sm font-semibold">
               <Globe className="h-4 w-4 text-primary" />
               {t("sites.publishModal.step4Title")}
             </div>
@@ -72,15 +94,15 @@ export function PublishModal({
 
           <div className="flex gap-3">
             <Button
-              onClick={onDownload}
+              onClick={handleDownload}
               disabled={isDownloading}
-              className="bg-brand-gradient flex-1 border-0 text-white hover:opacity-90 gap-2"
+              className="bg-brand-gradient flex-1 gap-2 border-0 text-white hover:opacity-90"
               id="publish-download-btn"
             >
               {isDownloading ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  Pobieranie...
+                  {t("sites.publishModal.downloading")}
                 </>
               ) : (
                 <>
