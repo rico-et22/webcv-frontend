@@ -21,7 +21,6 @@ function EditSitePage() {
   const { t } = useTranslation()
   const { siteId } = Route.useParams()
   const queryClient = useQueryClient()
-  const [previewKey, setPreviewKey] = useState(0)
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false)
   const [publishOpen, setPublishOpen] = useState(false)
 
@@ -84,8 +83,7 @@ function EditSitePage() {
       toast.success(t("sites.saved"))
       queryClient.invalidateQueries({ queryKey: ["site", siteId] })
       queryClient.invalidateQueries({ queryKey: ["sites"] })
-      // Refresh preview after save
-      setPreviewKey((k) => k + 1)
+      queryClient.invalidateQueries({ queryKey: ["site-preview", siteId] })
     },
     onError: () => {
       toast.error(t("sites.saveError"))
@@ -249,7 +247,6 @@ function EditSitePage() {
         {/* Single SitePreview — desktop inline + mobile modal, one fetch */}
         <SitePreview
           siteId={siteId}
-          refreshKey={previewKey}
           mobileOpen={mobilePreviewOpen}
           onMobileClose={() => setMobilePreviewOpen(false)}
           className="flex-1 overflow-hidden"

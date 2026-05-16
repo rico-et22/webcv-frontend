@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { X, Loader2 } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -9,45 +10,27 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
+import { apiClient } from "@/api/client"
 
 interface SitePreviewProps {
   siteId: string
-  /** Increment this to trigger a refresh (e.g. after successful PUT) */
-  refreshKey: number
   /** Mobile only: whether the preview modal is open */
   mobileOpen?: boolean
   onMobileClose?: () => void
   className?: string
 }
 
-function usePreviewHtml(siteId: string, refreshKey: number) {
-  const [html, setHtml] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+function usePreviewHtml(siteId: string) {
+  const { data: html, isLoading: loading, isError: error } = useQuery({
+    queryKey: ["site-preview", siteId],
+    queryFn: () =>
+      apiClient.generator
+        .generatorControllerPreview(siteId)
+        .then((res) => res.text()),
+    enabled: !!siteId,
+  })
 
-  useEffect(() => {
-    if (!siteId) return
-    setLoading(true)
-    setError(false)
-    const token = localStorage.getItem("accessToken")
-    fetch(`${import.meta.env.VITE_API_URL}/generator/preview/${siteId}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error()
-        return res.text()
-      })
-      .then((text) => {
-        setHtml(text)
-        setLoading(false)
-      })
-      .catch(() => {
-        setError(true)
-        setLoading(false)
-      })
-  }, [siteId, refreshKey])
-
-  return { html, loading, error }
+  return { html: html ?? null, loading, error }
 }
 
 function PreviewFrame({
@@ -102,13 +85,12 @@ function PreviewFrame({
 
 export function SitePreview({
   siteId,
-  refreshKey,
   mobileOpen,
   onMobileClose,
   className,
 }: SitePreviewProps) {
   const { t } = useTranslation()
-  const { html, loading, error } = usePreviewHtml(siteId, refreshKey)
+  const { html, loading, error } = usePreviewHtml(siteId)
 
   return (
     <>
