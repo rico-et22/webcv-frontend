@@ -141,6 +141,9 @@
       "imageOnly": "jpeg, png, webp, gif — maks. 50 MB"
     }
   },
+  "unsavedChangesGuard": {
+    "message": "Masz niezapisane zmiany. Czy na pewno chcesz opuścić stronę?"
+  },
   "landing": {
     "headline": "Twoja wizytówka w sieci",
     "headlineHighlight": "z Twojego CV",

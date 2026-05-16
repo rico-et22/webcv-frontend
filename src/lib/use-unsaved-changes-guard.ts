@@ -1,8 +1,6 @@
 import { useEffect } from "react"
 import { useBlocker } from "@tanstack/react-router"
-
-const CONFIRM_MESSAGE =
-  "Masz niezapisane zmiany. Czy na pewno chcesz opuścić stronę?"
+import { useTranslation } from "react-i18next"
 
 /**
  * Blocks SPA navigation and browser unload when `isDirty` is true.
@@ -10,6 +8,9 @@ const CONFIRM_MESSAGE =
  * Uses the browser's built-in beforeunload prompt for tab close / refresh.
  */
 export function useUnsavedChangesGuard(isDirty: boolean) {
+  const { t } = useTranslation()
+  const CONFIRM_MESSAGE = t("unsavedChangesGuard.message")
+
   // Block TanStack Router internal navigation
   useBlocker({
     shouldBlockFn: () => {
