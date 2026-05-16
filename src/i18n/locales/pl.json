@@ -46,10 +46,10 @@
       "desc": "Twoja strona portfolio została spakowana do pliku ZIP. Aby ją opublikować:",
       "step1": "Pobierz plik ZIP klikając przycisk poniżej.",
       "step2": "Wypakuj zawartość archiwum — to gotowa strona statyczna.",
-      "step3Title": "Opcja 1 – Hosting FTP (np. nazwa.pl, home.pl)",
+      "step3Title": "Opcja 1 – Hosting FTP (np. OVH, nazwa.pl, home.pl)",
       "step3": "Połącz się z hostingiem przez FileZilla lub inny klient FTP. Wgraj zawartość folderu do katalogu publicznego (np. public_html).",
-      "step4Title": "Opcja 2 – GitHub Pages (darmowy hosting)",
-      "step4": "Utwórz repozytorium na GitHubie, wgraj pliki i włącz GitHub Pages w ustawieniach repozytorium.",
+      "step4Title": "Opcja 2 – GitHub Pages (darmowy hosting na domenie *.github.io)",
+      "step4": "Utwórz repozytorium na GitHubie o nazwie \"<twój_login_github>.github.io\". Następnie wgraj pliki i włącz GitHub Pages w ustawieniach repozytorium.",
       "download": "Pobierz ZIP",
       "downloading": "Pobieranie...",
       "close": "Zamknij"
