@@ -5,6 +5,34 @@
     "logout": "Wyloguj",
     "dashboard": "Panel"
   },
+  "settings": {
+    "changePassword": {
+      "title": "Zmień hasło",
+      "description": "Zaktualizuj hasło do swojego konta. Musisz podać aktualne hasło.",
+      "currentPassword": "Aktualne hasło",
+      "currentPasswordRequired": "Aktualne hasło jest wymagane",
+      "newPassword": "Nowe hasło",
+      "confirmNewPassword": "Powtórz nowe hasło",
+      "confirmRequired": "Potwierdzenie hasła jest wymagane",
+      "mismatch": "Hasła nie są identyczne",
+      "submit": "Zmień hasło",
+      "pending": "Zmienianie...",
+      "success": "Hasło zostało zmienione",
+      "error": "Nie udało się zmienić hasła. Sprawdź aktualne hasło."
+    },
+    "deleteAccount": {
+      "title": "Usuń konto",
+      "description": "Trwale usuń swoje konto i wszystkie zapisane dane, w tym strony portfolio. Tej operacji nie można cofnąć.",
+      "button": "Usuń konto",
+      "confirmTitle": "Czy na pewno chcesz usunąć konto?",
+      "confirmDesc": "Wszystkie Twoje dane, w tym strony portfolio, zostaną trwale usunięte. Tej operacji nie można cofnąć.",
+      "confirmCancel": "Anuluj",
+      "confirmAction": "Tak, usuń konto",
+      "confirmPending": "Usuwanie...",
+      "success": "Konto zostało usunięte",
+      "error": "Nie udało się usunąć konta. Spróbuj ponownie."
+    }
+  },
   "dashboard": {
     "menu": {
       "sites": "Moje strony",
