@@ -17,6 +17,11 @@ import { useState, useRef } from "react"
 import { toast } from "sonner"
 import { apiClient } from "@/api/client"
 import type { CreateSiteDto } from "@/api/index"
+
+export type SiteFormValues = CreateSiteDto & {
+  avatarUrl?: string
+}
+
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -87,21 +92,20 @@ function Field({
 function ImageUploader({
   label,
   currentPath,
+  currentUrl,
   bucket,
   onUploaded,
   onRemoved,
 }: {
   label: string
   currentPath?: string
+  currentUrl?: string
   bucket: "avatars" | "screenshots"
   onUploaded: (url: string, storagePath: string) => void
   onRemoved: () => void
 }) {
   const { t } = useTranslation()
   const [uploading, setUploading] = useState(false)
-  const currentUrl = currentPath
-    ? `${import.meta.env.VITE_SUPABASE_STORAGE_URL}/${bucket}/${currentPath}`
-    : undefined
 
   const handleUpload = async (file: File) => {
     setUploading(true)
@@ -110,7 +114,8 @@ function ImageUploader({
         file,
         bucket,
       })
-      onUploaded(res.data.data.url, res.data.data.storagePath)
+      const { url, storagePath } = res.data.data
+      onUploaded(url, storagePath)
     } catch {
       toast.error(t("sites.form.imageError"))
     } finally {
@@ -177,7 +182,7 @@ function ImageUploader({
 // ------- Skills -------
 function SkillsField() {
   const { t } = useTranslation()
-  const { watch, setValue } = useFormContext<CreateSiteDto>()
+  const { watch, setValue } = useFormContext<SiteFormValues>()
   const skills = watch("skills") ?? []
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -252,7 +257,7 @@ function ExperienceSection() {
     register,
     control,
     formState: { errors },
-  } = useFormContext<CreateSiteDto>()
+  } = useFormContext<SiteFormValues>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "experience",
@@ -354,7 +359,7 @@ function EducationSection() {
     register,
     control,
     formState: { errors },
-  } = useFormContext<CreateSiteDto>()
+  } = useFormContext<SiteFormValues>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "education",
@@ -455,9 +460,14 @@ function ProjectItem({
     register,
     setValue,
     formState: { errors },
-  } = useFormContext<CreateSiteDto>()
+  } = useFormContext<SiteFormValues>()
   const storagePath = useWatch({
     name: `projects.${index}.imageStoragePath` as const,
+  }) as string | undefined
+  // Use the signed URL from form state (populated by reset(siteData) on edit load,
+  // or set directly after a fresh upload via onUploaded).
+  const imageUrl = useWatch({
+    name: `projects.${index}.imageUrl` as const,
   }) as string | undefined
 
   return (
@@ -507,14 +517,17 @@ function ProjectItem({
         <ImageUploader
           label={t("sites.form.uploadImage")}
           currentPath={storagePath}
+          currentUrl={imageUrl}
           bucket="screenshots"
-          onUploaded={(_, path) => {
+          onUploaded={(url, path) => {
+            setValue(`projects.${index}.imageUrl`, url)
             setValue(`projects.${index}.imageStoragePath`, path, {
               shouldDirty: true,
               shouldValidate: true,
             })
           }}
           onRemoved={() => {
+            setValue(`projects.${index}.imageUrl`, undefined)
             setValue(`projects.${index}.imageStoragePath`, undefined, {
               shouldDirty: true,
               shouldValidate: true,
@@ -528,7 +541,7 @@ function ProjectItem({
 
 function ProjectsSection() {
   const { t } = useTranslation()
-  const { control } = useFormContext<CreateSiteDto>()
+  const { control } = useFormContext<SiteFormValues>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "projects",
@@ -561,7 +574,7 @@ function AchievementsSection() {
     register,
     control,
     formState: { errors },
-  } = useFormContext<CreateSiteDto>()
+  } = useFormContext<SiteFormValues>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "achievements",
@@ -625,11 +638,11 @@ function AchievementsSection() {
 
 // ------- Main SiteForm -------
 export interface SiteFormHandles {
-  getValues: () => CreateSiteDto
+  getValues: () => SiteFormValues
 }
 
 interface SiteFormProps {
-  onAiApply: (data: Partial<CreateSiteDto>) => void
+  onAiApply: (data: Partial<SiteFormValues>) => void
 }
 
 export function SiteForm({ onAiApply }: SiteFormProps) {
@@ -638,12 +651,14 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
     register,
     setValue,
     formState: { errors },
-  } = useFormContext<CreateSiteDto>()
+  } = useFormContext<SiteFormValues>()
 
-  // Track avatar preview URL in local state (full public URL from storage)
   const avatarStoragePath = useWatch({ name: "avatarStoragePath" }) as
     | string
     | undefined
+  // Use the signed URL from form state — set by reset(siteData) on edit load,
+  // or updated after a fresh upload via onUploaded.
+  const avatarUrl = useWatch({ name: "avatarUrl" }) as string | undefined
 
   return (
     <div className="flex flex-col gap-8">
@@ -653,31 +668,25 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
       {/* Basic data */}
       <FormSection icon={User} title={t("sites.form.basicData")}>
         <Field label={t("sites.form.avatar")}>
-          <input type="hidden" {...register("avatarUrl")} />
           <input type="hidden" {...register("avatarStoragePath")} />
           <ImageUploader
             label={t("sites.form.uploadAvatar")}
             currentPath={avatarStoragePath}
+            currentUrl={avatarUrl}
             bucket="avatars"
             onUploaded={(url, path) => {
-              setValue("avatarUrl", url, {
-                shouldDirty: true,
-                shouldValidate: true,
-              })
               setValue("avatarStoragePath", path, {
                 shouldDirty: true,
                 shouldValidate: true,
               })
+              setValue("avatarUrl", url)
             }}
             onRemoved={() => {
-              setValue("avatarUrl", undefined, {
-                shouldDirty: true,
-                shouldValidate: true,
-              })
               setValue("avatarStoragePath", undefined, {
                 shouldDirty: true,
                 shouldValidate: true,
               })
+              setValue("avatarUrl", undefined)
             }}
           />
         </Field>

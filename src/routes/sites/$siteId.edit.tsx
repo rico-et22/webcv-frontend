@@ -8,7 +8,7 @@ import { toast } from "sonner"
 import { useEffect, useState } from "react"
 import { ArrowLeft, Save, Upload, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SiteForm } from "@/components/sites/SiteForm"
+import { SiteForm, type SiteFormValues } from "@/components/sites/SiteForm"
 import { SitePreview } from "@/components/sites/SitePreview"
 import { PublishModal } from "@/components/sites/PublishModal"
 import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard"
@@ -24,7 +24,7 @@ function EditSitePage() {
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false)
   const [publishOpen, setPublishOpen] = useState(false)
 
-  const methods = useForm<CreateSiteDto>({
+  const methods = useForm<SiteFormValues>({
     mode: "onChange",
     defaultValues: {
       fullName: "",
@@ -90,23 +90,24 @@ function EditSitePage() {
     },
   })
 
-  const onSubmit = (data: CreateSiteDto) => {
+  const onSubmit = (data: SiteFormValues) => {
+    const { avatarUrl, ...restData } = data
     // Send empty strings for image fields if they are missing to clear them on the backend
-    const payload = {
-      ...data,
-      avatarUrl: data.avatarUrl || "",
-      avatarStoragePath: data.avatarStoragePath || "",
-      projects: data.projects?.map((p) => ({
+    const payload: CreateSiteDto = {
+      ...restData,
+      avatarStoragePath: restData.avatarStoragePath || "",
+      projects: restData.projects?.map((p) => ({
         ...p,
         imageStoragePath: p.imageStoragePath || "",
+        imageUrl: undefined,
       })),
     }
     saveMutation.mutate(payload)
   }
 
-  const handleAiApply = async (partial: Partial<CreateSiteDto>) => {
+  const handleAiApply = async (partial: Partial<SiteFormValues>) => {
     for (const [key, value] of Object.entries(partial)) {
-      setValue(key as keyof CreateSiteDto, value as never, {
+      setValue(key as keyof SiteFormValues, value as never, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true,

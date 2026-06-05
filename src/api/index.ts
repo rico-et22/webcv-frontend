@@ -159,10 +159,15 @@ export interface ProjectDto {
   /** @example "https://github.com/kamilpawlak/webcv" */
   url?: string;
   /**
-   * Supabase Storage path in the screenshots bucket. The generator derives the public URL from this at render time.
+   * Supabase Storage path in the screenshots bucket. Pass this when creating/updating a site.
    * @example "50b61a6d-37d2-473c-a00b-b2da9d1caf9b/22de84be-e6ab-4fbb-9a58-a132f51fb97c/1774082008960.png"
    */
   imageStoragePath?: string;
+  /**
+   * Signed URL (1 hr TTL). Computed from imageStoragePath at read time. Not an input field — stripped by whitelist validation.
+   * @example "https://xyz.supabase.co/storage/v1/object/sign/screenshots/user-id/ts.png?token=…"
+   */
+  imageUrl?: string;
 }
 
 export interface AchievementDto {
@@ -181,8 +186,6 @@ export interface SiteResponseDto {
   location?: string;
   /** @example "Passionate developer with 3+ years of experience..." */
   bio?: string;
-  /** @example "https://example.com/storage/avatar.png" */
-  avatarUrl?: string;
   /** @example "user-id/site-id/avatar.png" */
   avatarStoragePath?: string;
   contacts?: ContactDto;
@@ -196,6 +199,11 @@ export interface SiteResponseDto {
   id: string;
   /** @example "123e4567-e89b-12d3-a456-426614174000" */
   userId: string;
+  /**
+   * Signed URL (1 hr TTL). Computed from avatarStoragePath at read time. Not an input field.
+   * @example "https://xyz.supabase.co/storage/v1/object/sign/avatars/user-id/ts.jpg?token=…"
+   */
+  avatarUrl?: string;
   /** @example "2026-01-01T12:00:00Z" */
   createdAt: string;
   /** @example "2026-01-01T12:00:00Z" */
@@ -209,8 +217,13 @@ export interface SiteSummaryResponseDto {
   fullName: string;
   /** @example "Full-Stack Developer" */
   jobTitle?: string;
-  /** @example "https://example.com/avatar.png" */
+  /**
+   * Signed URL (1 hr TTL). Computed from avatarStoragePath at read time.
+   * @example "https://xyz.supabase.co/storage/v1/object/sign/avatars/user-id/ts.jpg?token=…"
+   */
   avatarUrl?: string;
+  /** @example "user-id/ts.jpg" */
+  avatarStoragePath?: string;
   /** @example "2026-01-01T12:00:00Z" */
   createdAt: string;
   /** @example "2026-01-01T12:00:00Z" */
@@ -226,8 +239,6 @@ export interface CreateSiteDto {
   location?: string;
   /** @example "Passionate developer with 3+ years of experience..." */
   bio?: string;
-  /** @example "https://example.com/storage/avatar.png" */
-  avatarUrl?: string;
   /** @example "user-id/site-id/avatar.png" */
   avatarStoragePath?: string;
   contacts?: ContactDto;
@@ -248,8 +259,6 @@ export interface UpdateSiteDto {
   location?: string;
   /** @example "Passionate developer with 3+ years of experience..." */
   bio?: string;
-  /** @example "https://example.com/storage/avatar.png" */
-  avatarUrl?: string;
   /** @example "user-id/site-id/avatar.png" */
   avatarStoragePath?: string;
   contacts?: ContactDto;
@@ -262,7 +271,10 @@ export interface UpdateSiteDto {
 }
 
 export interface UploadResponseDataDto {
-  /** @example "https://xyz.supabase.co/storage/v1/object/public/avatars/user-id/avatar.png" */
+  /**
+   * Signed URL (1 hr TTL). Use immediately for preview; do not persist.
+   * @example "https://xyz.supabase.co/storage/v1/object/sign/avatars/user-id/ts.jpg?token=…"
+   */
   url: string;
   /** @example "user-id/avatar.png" */
   storagePath: string;
@@ -942,7 +954,7 @@ export class Api<
      *
      * @tags ai
      * @name AiControllerAnalyzeCv
-     * @summary Parse a PDF CV and return prefilled portfolio data using Gemini AI
+     * @summary Parse a PDF CV and return prefilled portfolio data using Azure AI
      * @request POST:/ai/analyze-cv
      * @secure
      */

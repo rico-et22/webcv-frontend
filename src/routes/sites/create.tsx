@@ -8,7 +8,7 @@ import type { CreateSiteDto } from "@/api/index"
 import { toast } from "sonner"
 import { ArrowLeft, Save, Monitor } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SiteForm } from "@/components/sites/SiteForm"
+import { SiteForm, type SiteFormValues } from "@/components/sites/SiteForm"
 import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard"
 
 export const Route = createFileRoute("/sites/create")({
@@ -20,7 +20,7 @@ function CreateSitePage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const methods = useForm<CreateSiteDto>({
+  const methods = useForm<SiteFormValues>({
     mode: "onChange",
     defaultValues: {
       fullName: "",
@@ -70,13 +70,23 @@ function CreateSitePage() {
     }
   }, [createMutation.isSuccess, createMutation.data, navigate])
 
-  const onSubmit = (data: CreateSiteDto) => {
-    createMutation.mutate(data)
+  const onSubmit = (data: SiteFormValues) => {
+    const { avatarUrl, ...restData } = data
+    const payload: CreateSiteDto = {
+      ...restData,
+      avatarStoragePath: restData.avatarStoragePath || "",
+      projects: restData.projects?.map((p) => ({
+        ...p,
+        imageStoragePath: p.imageStoragePath || "",
+        imageUrl: undefined,
+      })),
+    }
+    createMutation.mutate(payload)
   }
 
-  const handleAiApply = async (partial: Partial<CreateSiteDto>) => {
+  const handleAiApply = async (partial: Partial<SiteFormValues>) => {
     for (const [key, value] of Object.entries(partial)) {
-      setValue(key as keyof CreateSiteDto, value as never, {
+      setValue(key as keyof SiteFormValues, value as never, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true,

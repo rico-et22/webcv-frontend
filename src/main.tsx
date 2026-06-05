@@ -20,7 +20,7 @@ declare module "@tanstack/react-router" {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="light" storageKey="webcv-theme">
         <RouterProvider router={router} />
       </ThemeProvider>
     </QueryClientProvider>
