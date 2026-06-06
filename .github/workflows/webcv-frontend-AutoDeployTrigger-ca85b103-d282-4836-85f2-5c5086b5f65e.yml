@@ -17,8 +17,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions: 
-      id-token: write #This is required for requesting the OIDC JWT Token
-      contents: read #Required when GH token is used to authenticate with private repo
+      id-token: write
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout to the branch
@@ -38,8 +39,8 @@ jobs:
           appSourcePath: ${{ github.workspace }}
           dockerfilePath: Dockerfile
           registryUrl: ghcr.io
-          registryUsername: ${{ secrets.WEBCVFRONTEND_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.WEBCVFRONTEND_REGISTRY_PASSWORD }}
+          registryUsername: ${{ github.actor }}
+          registryPassword: ${{ secrets.GITHUB_TOKEN }}
           containerAppName: webcv-frontend
           resourceGroup: webcv-ai
           imageToBuild: ghcr.io/${{ github.repository }}:${{ github.sha }}
