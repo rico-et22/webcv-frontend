@@ -33,16 +33,30 @@ jobs:
           subscription-id: ${{ secrets.WEBCVFRONTEND_AZURE_SUBSCRIPTION_ID }}
           allow-no-subscriptions: true
 
-      - name: Build and push container image to registry
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lowercase the repo name
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
+      - name: Build and push container image
+        run: |
+          IMAGE_TAG="ghcr.io/${{ env.REPO }}:${{ github.sha }}"
+          docker build -t $IMAGE_TAG -f Dockerfile ${{ github.workspace }}
+          docker push $IMAGE_TAG
+
+      - name: Remove stale registry credentials from Container App
+        run: az containerapp registry remove -n webcv-frontend -g webcv-ai --server ghcr.io || true
+
+      - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          dockerfilePath: Dockerfile
-          registryUrl: ghcr.io
-          registryUsername: ${{ github.actor }}
-          registryPassword: ${{ secrets.GITHUB_TOKEN }}
           containerAppName: webcv-frontend
           resourceGroup: webcv-ai
-          imageToBuild: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          imageToDeploy: ghcr.io/${{ env.REPO }}:${{ github.sha }}
 
 
