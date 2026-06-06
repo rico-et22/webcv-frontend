@@ -51,10 +51,10 @@ function Register() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-sm ring-1 ring-black/5">
         {isSuccess ? (
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
               <MailCheck className="h-6 w-6 text-green-600" />
             </div>
@@ -66,7 +66,7 @@ function Register() {
             </p>
             <div className="mt-8">
               <Link to="/login">
-                <Button className="w-full bg-brand-gradient border-0 text-white hover:opacity-90 rounded-full">
+                <Button className="bg-brand-gradient w-full rounded-full border-0 text-white hover:opacity-90">
                   {t("auth.register.backToLogin")}
                 </Button>
               </Link>
@@ -80,71 +80,75 @@ function Register() {
               </h2>
             </div>
 
-        <form
-          className="mt-8 space-y-6"
-          onSubmit={handleSubmit(onSubmit)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault()
-              handleSubmit(onSubmit)()
-            }
-          }}
-        >
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">{t("auth.register.email")}</Label>
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">{t("auth.register.password")}</Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="new-password"
-                {...register("password")}
-              />
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-brand-gradient border-0 text-white hover:opacity-90 rounded-full"
-            disabled={registerMutation.isPending}
-          >
-            {registerMutation.isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {t("auth.register.pending")}
-              </>
-            ) : (
-              t("auth.register.submit")
-            )}
-          </Button>
-
-          <div className="text-center mt-4">
-            <Link
-              to="/login"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+            <form
+              className="mt-8 space-y-6"
+              onSubmit={handleSubmit(onSubmit)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault()
+                  handleSubmit(onSubmit)()
+                }
+              }}
             >
-              {t("auth.register.hasAccount")}
-            </Link>
-          </div>
-        </form>
-        </>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">{t("auth.register.email")}</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    {...register("email")}
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-500">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">
+                    {t("auth.register.password")}
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    autoComplete="new-password"
+                    {...register("password")}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-red-500">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                className="bg-brand-gradient w-full rounded-full border-0 text-white hover:opacity-90"
+                disabled={registerMutation.isPending}
+              >
+                {registerMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t("auth.register.pending")}
+                  </>
+                ) : (
+                  t("auth.register.submit")
+                )}
+              </Button>
+
+              <div className="mt-4 text-center">
+                <Link
+                  to="/login"
+                  className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                >
+                  {t("auth.register.hasAccount")}
+                </Link>
+              </div>
+            </form>
+          </>
         )}
       </div>
     </div>

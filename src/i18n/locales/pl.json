@@ -70,16 +70,19 @@
     "previewPlaceholder": "Wypełnij dane i zapisz, aby zobaczyć podgląd.",
     "publish": "Opublikuj",
     "publishModal": {
-      "title": "Pobierz i opublikuj stronę",
-      "desc": "Twoja strona portfolio została spakowana do pliku ZIP. Aby ją opublikować:",
-      "step1": "Pobierz plik ZIP klikając przycisk poniżej.",
-      "step2": "Wypakuj zawartość archiwum — to gotowa strona statyczna.",
-      "step3Title": "Opcja 1 – Hosting FTP (np. OVH, nazwa.pl, home.pl)",
-      "step3": "Połącz się z hostingiem przez FileZilla lub inny klient FTP. Wgraj zawartość folderu do katalogu publicznego (np. public_html).",
-      "step4Title": "Opcja 2 – GitHub Pages (darmowy hosting na domenie *.github.io)",
-      "step4": "Utwórz repozytorium na GitHubie o nazwie \"<twój_login_github>.github.io\". Następnie wgraj pliki i włącz GitHub Pages w ustawieniach repozytorium.",
+      "title": "Opublikuj stronę",
+      "desc": "Wybierz sposób, w jaki chcesz opublikować swoją stronę portfolio:",
+      "option1Title": "Opcja 1 – Hosting FTP (np. OVH, nazwa.pl, home.pl)",
+      "option1Desc": "Połącz się z hostingiem przez FileZilla lub inny klient FTP. Wgraj zawartość folderu do katalogu publicznego (np. public_html).",
+      "option2Title": "Opcja 2 (rekomendowana) – Darmowy hosting na GitHub Pages",
+      "option2Desc": "Zalogujesz się na swoje konto GitHub i jednym kliknięciem wystawisz stronę na bezpłatny hosting GitHub Pages, pod adresem {{username}}.github.io",
       "download": "Pobierz ZIP",
       "downloading": "Pobieranie...",
+      "githubConnect": "Połącz z GitHubem",
+      "githubPublish": "Opublikuj na GitHubie",
+      "githubPublishAs": "Opublikuj jako {{username}}",
+      "githubPublishing": "Publikowanie...",
+      "githubSuccess": "Strona została opublikowana!",
       "close": "Zamknij"
     },
     "form": {
@@ -247,6 +250,14 @@
       "successDescription": "Twój adres e-mail został potwierdzony. Możesz się teraz zalogować.",
       "errorTitle": "Błąd weryfikacji",
       "errorDescription": "Link jest nieprawidłowy lub wygasł."
+    },
+    "githubCallback": {
+      "noCode": "Brak kodu autoryzacyjnego.",
+      "noOpener": "Nie można połączyć się z oknem głównym.",
+      "error": "Wystąpił błąd podczas autoryzacji.",
+      "closeWindow": "Możesz zamknąć to okno.",
+      "loading": "Trwa autoryzacja GitHub...",
+      "errorPrefix": "Błąd"
     }
   }
 }

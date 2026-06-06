@@ -1,4 +1,10 @@
-import { createFileRoute, redirect, Outlet, Link, useLocation } from "@tanstack/react-router"
+import {
+  createFileRoute,
+  redirect,
+  Outlet,
+  Link,
+  useLocation,
+} from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { Globe, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -23,7 +29,7 @@ function DashboardLayout() {
   return (
     <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-6 py-12 sm:px-10 md:flex-row">
       {/* Sidebar */}
-      <aside className="w-full shrink-0 border-b border-border/60 pb-8 md:w-[300px] md:border-b-0 md:border-r md:pb-0 md:pr-8">
+      <aside className="w-full shrink-0 border-b border-border/60 pb-8 md:w-[300px] md:border-r md:border-b-0 md:pr-8 md:pb-0">
         <nav className="flex flex-col gap-2">
           <Link
             to="/dashboard"

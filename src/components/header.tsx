@@ -32,7 +32,7 @@ export function Header() {
         <nav className="flex items-center gap-2">
           {user ? (
             <>
-              <span className="hidden sm:inline-block mr-2 text-sm text-muted-foreground">
+              <span className="mr-2 hidden text-sm text-muted-foreground sm:inline-block">
                 {user.email}
               </span>
               <Button variant="outline" size="sm" onClick={handleLogout}>

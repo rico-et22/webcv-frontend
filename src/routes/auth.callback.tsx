@@ -14,7 +14,9 @@ function AuthCallback() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { setSession } = useAuth()
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading"
+  )
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -33,7 +35,7 @@ function AuthCallback() {
         try {
           // Set token temporarily so apiClient can use it to fetch user details
           localStorage.setItem("accessToken", accessToken)
-          
+
           const response = await apiClient.users.usersControllerGetMe()
           const result = response as any
           const user = result.data?.data || result.data
@@ -64,14 +66,16 @@ function AuthCallback() {
   if (status === "loading") {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <p className="text-gray-500 animate-pulse">{t("auth.callback.loading")}</p>
+        <p className="animate-pulse text-gray-500">
+          {t("auth.callback.loading")}
+        </p>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-sm ring-1 ring-black/5 text-center">
+    <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-black/5">
         {status === "success" ? (
           <>
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -94,7 +98,7 @@ function AuthCallback() {
 
         <div className="mt-8">
           <Link to="/login">
-            <Button className="w-full bg-brand-gradient border-0 text-white hover:opacity-90 rounded-full">
+            <Button className="bg-brand-gradient w-full rounded-full border-0 text-white hover:opacity-90">
               {t("auth.forgotPassword.backToLogin")}
             </Button>
           </Link>

@@ -32,12 +32,11 @@ const customFetch = async (
 
   // Inject the token dynamically
   const options = init || {}
+  const headers = new Headers(options.headers as any)
   if (token) {
-    options.headers = {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    }
+    headers.set("Authorization", `Bearer ${token}`)
   }
+  options.headers = headers
 
   let response = await window.fetch(input, options)
 
@@ -95,10 +94,10 @@ const customFetch = async (
         processQueue(null, newAccessToken)
 
         // Retry original request
-        options.headers = {
-          ...options.headers,
-          Authorization: `Bearer ${newAccessToken}`,
-        }
+        const retryHeaders = new Headers(options.headers as any)
+        retryHeaders.set("Authorization", `Bearer ${newAccessToken}`)
+        options.headers = retryHeaders
+
         response = await window.fetch(input, options)
       } else {
         throw new Error("Refresh failed")

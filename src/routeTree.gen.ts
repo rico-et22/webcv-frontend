@@ -18,6 +18,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as SitesCreateRouteImport } from './routes/sites/create'
+import { Route as GithubCallbackRouteImport } from './routes/github/callback'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as SitesSiteIdEditRouteImport } from './routes/sites/$siteId.edit'
@@ -67,6 +68,11 @@ const SitesCreateRoute = SitesCreateRouteImport.update({
   path: '/sites/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GithubCallbackRoute = GithubCallbackRouteImport.update({
+  id: '/github/callback',
+  path: '/github/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/github/callback': typeof GithubCallbackRoute
   '/sites/create': typeof SitesCreateRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/github/callback': typeof GithubCallbackRoute
   '/sites/create': typeof SitesCreateRoute
   '/dashboard': typeof DashboardIndexRoute
   '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/github/callback': typeof GithubCallbackRoute
   '/sites/create': typeof SitesCreateRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/dashboard/settings'
+    | '/github/callback'
     | '/sites/create'
     | '/dashboard/'
     | '/sites/$siteId/edit'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/dashboard/settings'
+    | '/github/callback'
     | '/sites/create'
     | '/dashboard'
     | '/sites/$siteId/edit'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/dashboard/settings'
+    | '/github/callback'
     | '/sites/create'
     | '/dashboard/'
     | '/sites/$siteId/edit'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  GithubCallbackRoute: typeof GithubCallbackRoute
   SitesCreateRoute: typeof SitesCreateRoute
   SitesSiteIdEditRoute: typeof SitesSiteIdEditRoute
 }
@@ -247,6 +260,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitesCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/github/callback': {
+      id: '/github/callback'
+      path: '/github/callback'
+      fullPath: '/github/callback'
+      preLoaderRoute: typeof GithubCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/settings': {
       id: '/dashboard/settings'
       path: '/settings'
@@ -294,6 +314,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  GithubCallbackRoute: GithubCallbackRoute,
   SitesCreateRoute: SitesCreateRoute,
   SitesSiteIdEditRoute: SitesSiteIdEditRoute,
 }

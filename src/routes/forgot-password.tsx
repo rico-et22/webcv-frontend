@@ -48,7 +48,7 @@ function ForgotPassword() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-sm ring-1 ring-black/5">
         <div className="text-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -86,7 +86,7 @@ function ForgotPassword() {
 
           <Button
             type="submit"
-            className="w-full bg-brand-gradient border-0 text-white hover:opacity-90 rounded-full"
+            className="bg-brand-gradient w-full rounded-full border-0 text-white hover:opacity-90"
             disabled={forgotMutation.isPending}
           >
             {forgotMutation.isPending ? (
@@ -99,7 +99,7 @@ function ForgotPassword() {
             )}
           </Button>
 
-          <div className="text-center mt-4">
+          <div className="mt-4 text-center">
             <Link
               to="/login"
               className="text-sm font-medium text-gray-600 hover:text-gray-900"

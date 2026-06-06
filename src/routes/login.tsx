@@ -60,7 +60,7 @@ function Login() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-sm ring-1 ring-black/5">
         <div className="text-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -110,7 +110,7 @@ function Login() {
 
           <Button
             type="submit"
-            className="w-full bg-brand-gradient border-0 text-white hover:opacity-90 rounded-full"
+            className="bg-brand-gradient w-full rounded-full border-0 text-white hover:opacity-90"
             disabled={loginMutation.isPending}
           >
             {loginMutation.isPending ? (
@@ -126,13 +126,13 @@ function Login() {
           <div className="mt-6 flex flex-col items-center space-y-4 text-center">
             <Link
               to="/forgot-password"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
             >
               {t("auth.login.forgotPassword")}
             </Link>
             <Link
               to="/register"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
             >
               {t("auth.login.noAccount")}
             </Link>

@@ -18,11 +18,11 @@ export const Route = createFileRoute("/reset-password")({
 function ResetPassword() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  
+
   // Supabase attaches parameters to the URL fragment (#)
   const hash = window.location.hash
   const hashParams = new URLSearchParams(hash.substring(1))
-  
+
   const token = hashParams.get("access_token")
 
   const resetSchema = z.object({
@@ -63,7 +63,7 @@ function ResetPassword() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-sm ring-1 ring-black/5">
         <div className="text-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -91,7 +91,9 @@ function ResetPassword() {
           >
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="password">{t("auth.resetPassword.newPassword")}</Label>
+                <Label htmlFor="password">
+                  {t("auth.resetPassword.newPassword")}
+                </Label>
                 <Input
                   id="password"
                   type="password"
@@ -108,7 +110,7 @@ function ResetPassword() {
 
             <Button
               type="submit"
-              className="w-full bg-brand-gradient border-0 text-white hover:opacity-90 rounded-full"
+              className="bg-brand-gradient w-full rounded-full border-0 text-white hover:opacity-90"
               disabled={resetMutation.isPending}
             >
               {resetMutation.isPending ? (
@@ -123,7 +125,7 @@ function ResetPassword() {
           </form>
         )}
 
-        <div className="text-center mt-4">
+        <div className="mt-4 text-center">
           <Link
             to="/login"
             className="text-sm font-medium text-gray-600 hover:text-gray-900"
