@@ -1,6 +1,14 @@
 # Stage 1: Build the Vite application
 FROM node:22-alpine AS builder
 
+# Accept build arguments
+ARG VITE_API_URL
+ARG VITE_GITHUB_CLIENT_ID
+
+# Make them available to Vite during the build
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_GITHUB_CLIENT_ID=$VITE_GITHUB_CLIENT_ID
+
 # Install pnpm (matching your local version)
 RUN npm install -g pnpm@10.14.0
 
