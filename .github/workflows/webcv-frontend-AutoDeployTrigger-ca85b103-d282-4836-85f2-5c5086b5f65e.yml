@@ -44,8 +44,5 @@ jobs:
           containerAppName: webcv-frontend
           resourceGroup: webcv-ai
           imageToBuild: ghcr.io/${{ github.repository }}:${{ github.sha }}
-          buildArguments: |
-            VITE_API_URL=${{ secrets.VITE_API_URL }}
-            VITE_GITHUB_CLIENT_ID=${{ secrets.VITE_GITHUB_CLIENT_ID }}
 
 
