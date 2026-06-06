@@ -30,20 +30,18 @@ jobs:
           client-id: ${{ secrets.WEBCVFRONTEND_AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.WEBCVFRONTEND_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.WEBCVFRONTEND_AZURE_SUBSCRIPTION_ID }}
+          allow-no-subscriptions: true
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
-          _targetLabelKey_: _targetLabel_
-          registryUrl: 
+          dockerfilePath: Dockerfile
+          registryUrl: ghcr.io
           registryUsername: ${{ secrets.WEBCVFRONTEND_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.WEBCVFRONTEND_REGISTRY_PASSWORD }}
           containerAppName: webcv-frontend
           resourceGroup: webcv-ai
-          imageToBuild: default/[parameters('containerAppName')]:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
+          imageToBuild: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
 
