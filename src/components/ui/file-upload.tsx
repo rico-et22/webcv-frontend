@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Upload, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ErrorMessage } from "@/components/ui/error-message"
 
 interface FileUploadProps {
   accept: string
@@ -111,10 +112,10 @@ export function FileUpload({
       />
 
       {error && (
-        <p className="flex items-center gap-1 text-xs text-destructive">
+        <ErrorMessage className="flex items-center gap-1 text-xs">
           <X className="h-3 w-3" />
           {error}
-        </p>
+        </ErrorMessage>
       )}
     </div>
   )

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { ErrorMessage } from "@/components/ui/error-message"
 
 export function Field({
   label,
@@ -29,7 +30,7 @@ export function Field({
         )}
       </Label>
       {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </div>
   )
 }
