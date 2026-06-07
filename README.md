@@ -22,7 +22,7 @@ This application is built with Single-Page App frontend architecture:
 - **UI**: shadcn/ui, tailwindcss v4, lucide-react, Stack Sans fonts
 - **i18n**: i18next (Polish only)
 - **Package manager**: pnpm
-- **Deployment**: Azure Container App (Docker) + GitHub Actions workflow
+- **Deployment**: Cloudflare Pages (simple static hosting for Vite SPA, integrates with custom domain on Cloudflare, global fast CDN, virtually free. No need for strictly EU-located infrastructure since no user data is processed - only static frontend files are served.)
 
 ## Setup & Installation
 
