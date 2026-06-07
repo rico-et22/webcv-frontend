@@ -81,7 +81,7 @@
       "githubConnect": "Połącz z GitHubem",
       "githubPublish": "Opublikuj na GitHubie",
       "githubPublishAs": "Opublikuj jako {{username}}",
-      "githubPublishing": "Publikowanie...",
+      "githubPublishing": "Publikowanie... trwa ok. 30s",
       "githubSuccess": "Strona została opublikowana!",
       "close": "Zamknij"
     },
