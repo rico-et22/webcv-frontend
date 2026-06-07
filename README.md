@@ -93,9 +93,13 @@ To run the application via Docker:
 
 This project is licensed under the MIT License.
 
-### AI Co-Development
+### Development Tools & AI Assistance
 
-The following Agentic AI coding assistants provided support during the development process:
+During the development process, modern programming environments with LLM-based
+coding assistants were utilized to automate boilerplate generation and assist
+with code refactoring and debugging:
 
+- **Environments (IDE/CLI):** Google Antigravity IDE, Gemini CLI
 - **AI Models:** Gemini 3.1 Pro, Claude Sonnet/Opus 4.6
-- **AI Agents/Environments:** Google Antigravity, Gemini CLI
+
+All architectural and design-related decisions, security decisions, and integrations were performed by the author.

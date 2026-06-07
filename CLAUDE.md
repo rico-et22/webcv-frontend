@@ -1,9 +1,4 @@
-# CLAUDE.md — Coding Agent Guide
-
-> Authoritative reference for AI coding agents working on the **webcv-frontend** project.
-> Symlinked as `AGENTS.md` for cross-agent compatibility.
-
----
+# webCV Frontend — Architecture Guidelines & Instructions
 
 ## Project Overview
 
@@ -16,21 +11,21 @@ The application targets Polish-speaking users (UI language: Polish only), with i
 
 ## Tech Stack
 
-| Layer          | Technology                                                   |
-| -------------- | ------------------------------------------------------------ |
-| Framework      | React 19 (SPA, no SSR)                                      |
-| Language       | TypeScript 5.9 (strict mode)                                |
-| Build          | Vite 7 (`@vitejs/plugin-react`)                             |
-| Routing        | TanStack Router (file-based, auto code-splitting)            |
-| State/Fetching | TanStack Query v5 (`@tanstack/react-query`)                 |
-| API Client     | `swagger-typescript-api` (auto-generated from NestJS)       |
-| Styling        | Tailwind CSS v4 (`@tailwindcss/vite` plugin)                |
-| UI Components  | shadcn/ui (Radix primitives, `radix-luma` style, `mist` base color) |
-| Forms          | react-hook-form                                              |
-| i18n           | i18next + react-i18next (Polish only, `pl` locale)          |
-| Icons          | lucide-react                                                 |
+| Layer          | Technology                                                                          |
+| -------------- | ----------------------------------------------------------------------------------- |
+| Framework      | React 19 (SPA, no SSR)                                                              |
+| Language       | TypeScript 5.9 (strict mode)                                                        |
+| Build          | Vite 7 (`@vitejs/plugin-react`)                                                     |
+| Routing        | TanStack Router (file-based, auto code-splitting)                                   |
+| State/Fetching | TanStack Query v5 (`@tanstack/react-query`)                                         |
+| API Client     | `swagger-typescript-api` (auto-generated from NestJS)                               |
+| Styling        | Tailwind CSS v4 (`@tailwindcss/vite` plugin)                                        |
+| UI Components  | shadcn/ui (Radix primitives, `radix-luma` style, `mist` base color)                 |
+| Forms          | react-hook-form                                                                     |
+| i18n           | i18next + react-i18next (Polish only, `pl` locale)                                  |
+| Icons          | lucide-react                                                                        |
 | Fonts          | Stack Sans Headline (headings), Stack Sans Text (body) — via `@fontsource-variable` |
-| Package Mgr    | pnpm                                                         |
+| Package Mgr    | pnpm                                                                                |
 
 ---
 
