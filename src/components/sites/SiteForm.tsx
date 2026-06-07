@@ -60,12 +60,14 @@ function FormSection({
 // ------- Field row helper -------
 function Field({
   label,
+  htmlFor,
   required,
   error,
   children,
   className,
 }: {
   label: string
+  htmlFor?: string
   required?: boolean
   error?: string
   children: React.ReactNode
@@ -74,7 +76,7 @@ function Field({
   const { t } = useTranslation()
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <Label>
+      <Label htmlFor={htmlFor}>
         {label}
         {required && (
           <span className="ml-1 text-xs text-destructive">
@@ -207,6 +209,8 @@ function SkillsField() {
       <div className="flex gap-2">
         <Input
           ref={inputRef}
+          id="skill-input"
+          aria-label={t("sites.form.skills")}
           placeholder={t("sites.form.skillPlaceholder")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -214,7 +218,6 @@ function SkillsField() {
               addSkill()
             }
           }}
-          id="skill-input"
         />
         <Button
           type="button"
@@ -280,6 +283,7 @@ function ExperienceSection() {
               size="icon"
               onClick={() => remove(i)}
               className="h-7 w-7 text-destructive hover:bg-destructive/10"
+              aria-label={t("sites.form.removeExperience")}
             >
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
@@ -287,11 +291,13 @@ function ExperienceSection() {
           <div className="grid grid-cols-2 items-end gap-3">
             <Field
               label={t("sites.form.company")}
+              htmlFor={`exp-${field.id}-company`}
               required
               error={errors.experience?.[i]?.company?.message}
               className="col-span-2"
             >
               <Input
+                id={`exp-${field.id}-company`}
                 {...register(`experience.${i}.company`, {
                   required: t("sites.form.required"),
                 })}
@@ -299,11 +305,13 @@ function ExperienceSection() {
             </Field>
             <Field
               label={t("sites.form.role")}
+              htmlFor={`exp-${field.id}-role`}
               required
               error={errors.experience?.[i]?.role?.message}
               className="col-span-2"
             >
               <Input
+                id={`exp-${field.id}-role`}
                 {...register(`experience.${i}.role`, {
                   required: t("sites.form.required"),
                 })}
@@ -311,25 +319,35 @@ function ExperienceSection() {
             </Field>
             <Field
               label={t("sites.form.startDate")}
+              htmlFor={`exp-${field.id}-start`}
               required
               error={errors.experience?.[i]?.startDate?.message}
             >
               <Input
+                id={`exp-${field.id}-start`}
                 {...register(`experience.${i}.startDate`, {
                   required: t("sites.form.required"),
                 })}
                 placeholder="2022-01"
               />
             </Field>
-            <Field label={t("sites.form.endDateOptional")}>
+            <Field
+              label={t("sites.form.endDateOptional")}
+              htmlFor={`exp-${field.id}-end`}
+            >
               <Input
+                id={`exp-${field.id}-end`}
                 {...register(`experience.${i}.endDate`)}
                 placeholder="2024-06"
               />
             </Field>
           </div>
-          <Field label={t("sites.form.description")}>
+          <Field
+            label={t("sites.form.description")}
+            htmlFor={`exp-${field.id}-desc`}
+          >
             <Textarea
+              id={`exp-${field.id}-desc`}
               {...register(`experience.${i}.description`)}
               rows={3}
               className="resize-none"
@@ -382,6 +400,7 @@ function EducationSection() {
               size="icon"
               onClick={() => remove(i)}
               className="h-7 w-7 text-destructive hover:bg-destructive/10"
+              aria-label={t("sites.form.removeEducation")}
             >
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
@@ -389,11 +408,13 @@ function EducationSection() {
           <div className="grid grid-cols-2 items-end gap-3">
             <Field
               label={t("sites.form.institution")}
+              htmlFor={`edu-${field.id}-inst`}
               required
               error={errors.education?.[i]?.institution?.message}
               className="col-span-2"
             >
               <Input
+                id={`edu-${field.id}-inst`}
                 {...register(`education.${i}.institution`, {
                   required: t("sites.form.required"),
                 })}
@@ -401,11 +422,13 @@ function EducationSection() {
             </Field>
             <Field
               label={t("sites.form.degree")}
+              htmlFor={`edu-${field.id}-degree`}
               required
               error={errors.education?.[i]?.degree?.message}
               className="col-span-2"
             >
               <Input
+                id={`edu-${field.id}-degree`}
                 {...register(`education.${i}.degree`, {
                   required: t("sites.form.required"),
                 })}
@@ -413,18 +436,24 @@ function EducationSection() {
             </Field>
             <Field
               label={t("sites.form.startDate")}
+              htmlFor={`edu-${field.id}-start`}
               required
               error={errors.education?.[i]?.startDate?.message}
             >
               <Input
+                id={`edu-${field.id}-start`}
                 {...register(`education.${i}.startDate`, {
                   required: t("sites.form.required"),
                 })}
                 placeholder="2023-10"
               />
             </Field>
-            <Field label={t("sites.form.endDateOptional")}>
+            <Field
+              label={t("sites.form.endDateOptional")}
+              htmlFor={`edu-${field.id}-end`}
+            >
               <Input
+                id={`edu-${field.id}-end`}
                 {...register(`education.${i}.endDate`)}
                 placeholder="2027-06"
               />
@@ -482,6 +511,7 @@ function ProjectItem({
           size="icon"
           onClick={onRemove}
           className="h-7 w-7 text-destructive hover:bg-destructive/10"
+          aria-label={t("sites.form.removeProject")}
         >
           <Trash2 className="h-3.5 w-3.5" />
         </Button>
@@ -489,21 +519,28 @@ function ProjectItem({
       <div className="grid grid-cols-1 gap-3">
         <Field
           label={t("sites.form.projectName")}
+          htmlFor={`proj-${index}-name`}
           required
           error={errors.projects?.[index]?.name?.message}
         >
           <Input
+            id={`proj-${index}-name`}
             {...register(`projects.${index}.name`, {
               required: t("sites.form.required"),
             })}
           />
         </Field>
-        <Field label={t("sites.form.projectUrl")}>
-          <Input {...register(`projects.${index}.url`)} type="url" />
+        <Field label={t("sites.form.projectUrl")} htmlFor={`proj-${index}-url`}>
+          <Input
+            id={`proj-${index}-url`}
+            {...register(`projects.${index}.url`)}
+            type="url"
+          />
         </Field>
       </div>
-      <Field label={t("sites.form.description")}>
+      <Field label={t("sites.form.description")} htmlFor={`proj-${index}-desc`}>
         <Textarea
+          id={`proj-${index}-desc`}
           {...register(`projects.${index}.description`)}
           rows={2}
           className="resize-none"
@@ -597,23 +634,30 @@ function AchievementsSection() {
               size="icon"
               onClick={() => remove(i)}
               className="h-7 w-7 text-destructive hover:bg-destructive/10"
+              aria-label={t("sites.form.removeAchievement")}
             >
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
           <Field
             label={t("sites.form.achievementTitle")}
+            htmlFor={`achv-${field.id}-title`}
             required
             error={errors.achievements?.[i]?.title?.message}
           >
             <Input
+              id={`achv-${field.id}-title`}
               {...register(`achievements.${i}.title`, {
                 required: t("sites.form.required"),
               })}
             />
           </Field>
-          <Field label={t("sites.form.description")}>
+          <Field
+            label={t("sites.form.description")}
+            htmlFor={`achv-${field.id}-desc`}
+          >
             <Textarea
+              id={`achv-${field.id}-desc`}
               {...register(`achievements.${i}.description`)}
               rows={2}
               className="resize-none"
@@ -694,6 +738,7 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <Field
             label={t("sites.form.fullName")}
+            htmlFor="full-name-input"
             required
             error={errors.fullName?.message}
             className="col-span-2 sm:col-span-1"
@@ -707,16 +752,21 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
           </Field>
           <Field
             label={t("sites.form.jobTitle")}
+            htmlFor="job-title-input"
             className="col-span-2 sm:col-span-1"
           >
             <Input {...register("jobTitle")} id="job-title-input" />
           </Field>
-          <Field label={t("sites.form.location")} className="col-span-2">
+          <Field
+            label={t("sites.form.location")}
+            htmlFor="location-input"
+            className="col-span-2"
+          >
             <Input {...register("location")} id="location-input" />
           </Field>
         </div>
 
-        <Field label={t("sites.form.bio")}>
+        <Field label={t("sites.form.bio")} htmlFor="bio-input">
           <Textarea
             {...register("bio")}
             rows={4}
@@ -731,30 +781,58 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <Field
             label={t("sites.form.email")}
+            htmlFor="contact-email-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.email")} type="email" />
+            <Input
+              {...register("contacts.email")}
+              id="contact-email-input"
+              type="email"
+            />
           </Field>
           <Field
             label={t("sites.form.phone")}
+            htmlFor="contact-phone-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.phone")} type="tel" />
+            <Input
+              {...register("contacts.phone")}
+              id="contact-phone-input"
+              type="tel"
+            />
           </Field>
           <Field
             label={t("sites.form.linkedin")}
+            htmlFor="contact-linkedin-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.linkedin")} type="url" />
+            <Input
+              {...register("contacts.linkedin")}
+              id="contact-linkedin-input"
+              type="url"
+            />
           </Field>
           <Field
             label={t("sites.form.github")}
+            htmlFor="contact-github-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.github")} type="url" />
+            <Input
+              {...register("contacts.github")}
+              id="contact-github-input"
+              type="url"
+            />
           </Field>
-          <Field label={t("sites.form.website")} className="col-span-2">
-            <Input {...register("contacts.website")} type="url" />
+          <Field
+            label={t("sites.form.website")}
+            htmlFor="contact-website-input"
+            className="col-span-2"
+          >
+            <Input
+              {...register("contacts.website")}
+              id="contact-website-input"
+              type="url"
+            />
           </Field>
         </div>
       </FormSection>
