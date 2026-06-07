@@ -203,6 +203,7 @@
       "title": "Zarejestruj się",
       "email": "Adres e-mail",
       "password": "Hasło",
+      "confirmPassword": "Powtórz hasło",
       "submit": "Zarejestruj",
       "pending": "Rejestracja...",
       "success": "Zarejestrowano. Sprawdź swoją skrzynkę e-mail.",
@@ -226,6 +227,7 @@
       "title": "Nowe hasło",
       "description": "Wpisz swoje nowe hasło.",
       "newPassword": "Nowe hasło",
+      "confirmPassword": "Powtórz nowe hasło",
       "submit": "Zmień hasło",
       "pending": "Zmienianie...",
       "success": "Hasło zostało pomyślnie zmienione.",
@@ -236,7 +238,9 @@
       "emailRequired": "E-mail jest wymagany",
       "emailInvalid": "Nieprawidłowy format e-mail",
       "passwordRequired": "Hasło jest wymagane",
-      "passwordMin": "Hasło musi mieć co najmniej 8 znaków"
+      "passwordMin": "Hasło musi mieć co najmniej 8 znaków",
+      "confirmPasswordRequired": "Potwierdzenie hasła jest wymagane",
+      "passwordsMismatch": "Hasła nie są identyczne"
     },
     "session": {
       "expired": "Sesja wygasła. Zaloguj się ponownie.",

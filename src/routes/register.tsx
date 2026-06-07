@@ -20,24 +20,31 @@ function Register() {
   const { t } = useTranslation()
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const registerSchema = z.object({
-    email: z.string().email(t("auth.validation.emailInvalid")),
-    password: z.string().min(8, t("auth.validation.passwordMin")),
-  })
+  const registerSchema = z
+    .object({
+      email: z.string().email(t("auth.validation.emailInvalid")),
+      password: z.string().min(8, t("auth.validation.passwordMin")),
+      confirmPassword: z.string().min(1, t("auth.validation.confirmPasswordRequired")),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t("auth.validation.passwordsMismatch"),
+      path: ["confirmPassword"],
+    })
 
   type RegisterFormValues = z.infer<typeof registerSchema>
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
   })
 
   const registerMutation = useMutation({
-    mutationFn: (data: RegisterFormValues) =>
-      apiClient.auth.authControllerRegister(data),
+    mutationFn: ({ email, password }: RegisterFormValues) =>
+      apiClient.auth.authControllerRegister({ email, password }),
     onSuccess: () => {
       setIsSuccess(true)
     },
@@ -114,11 +121,30 @@ function Register() {
                     id="password"
                     type="password"
                     autoComplete="new-password"
-                    {...register("password")}
+                    {...register("password", {
+                      onChange: () => void trigger("confirmPassword"),
+                    })}
                   />
                   {errors.password && (
                     <p className="text-sm text-red-500">
                       {errors.password.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">
+                    {t("auth.register.confirmPassword")}
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    {...register("confirmPassword")}
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-sm text-red-500">
+                      {errors.confirmPassword.message}
                     </p>
                   )}
                 </div>

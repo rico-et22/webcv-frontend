@@ -25,25 +25,32 @@ function ResetPassword() {
 
   const token = hashParams.get("access_token")
 
-  const resetSchema = z.object({
-    password: z.string().min(8, t("auth.validation.passwordMin")),
-  })
+  const resetSchema = z
+    .object({
+      password: z.string().min(8, t("auth.validation.passwordMin")),
+      confirmPassword: z.string().min(1, t("auth.validation.confirmPasswordRequired")),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t("auth.validation.passwordsMismatch"),
+      path: ["confirmPassword"],
+    })
 
   type ResetFormValues = z.infer<typeof resetSchema>
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
   } = useForm<ResetFormValues>({
     resolver: zodResolver(resetSchema),
   })
 
   const resetMutation = useMutation({
-    mutationFn: (data: ResetFormValues) =>
+    mutationFn: ({ password }: ResetFormValues) =>
       apiClient.auth.authControllerConfirmReset({
         accessToken: token || "",
-        newPassword: data.password,
+        newPassword: password,
       }),
     onSuccess: () => {
       toast.success(t("auth.resetPassword.success"))
@@ -98,11 +105,30 @@ function ResetPassword() {
                   id="password"
                   type="password"
                   autoComplete="new-password"
-                  {...register("password")}
+                  {...register("password", {
+                    onChange: () => void trigger("confirmPassword"),
+                  })}
                 />
                 {errors.password && (
                   <p className="text-sm text-red-500">
                     {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">
+                  {t("auth.resetPassword.confirmPassword")}
+                </Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  {...register("confirmPassword")}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-500">
+                    {errors.confirmPassword.message}
                   </p>
                 )}
               </div>
