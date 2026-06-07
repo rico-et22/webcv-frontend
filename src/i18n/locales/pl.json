@@ -243,6 +243,9 @@
       "emailInvalid": "Nieprawidłowy format e-mail",
       "passwordRequired": "Hasło jest wymagane",
       "passwordMin": "Hasło musi mieć co najmniej 8 znaków",
+      "passwordUppercase": "Hasło musi zawierać co najmniej jedną wielką literę",
+      "passwordNumber": "Hasło musi zawierać co najmniej jedną cyfrę",
+      "passwordSpecial": "Hasło musi zawierać co najmniej jeden znak specjalny",
       "confirmPasswordRequired": "Potwierdzenie hasła jest wymagane",
       "passwordsMismatch": "Hasła nie są identyczne"
     },

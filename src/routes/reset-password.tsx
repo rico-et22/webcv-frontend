@@ -28,7 +28,21 @@ function ResetPassword() {
 
   const resetSchema = z
     .object({
-      password: z.string().min(8, t("auth.validation.passwordMin")),
+      password: z.string().superRefine((val, ctx) => {
+        const issues: string[] = []
+        if (val.length < 8) issues.push(t("auth.validation.passwordMin"))
+        if (!/[A-Z]/.test(val)) issues.push(t("auth.validation.passwordUppercase"))
+        if (!/[0-9]/.test(val)) issues.push(t("auth.validation.passwordNumber"))
+        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val))
+          issues.push(t("auth.validation.passwordSpecial"))
+
+        if (issues.length > 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: issues.join("\n"),
+          })
+        }
+      }),
       confirmPassword: z.string().min(1, t("auth.validation.confirmPasswordRequired")),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -107,7 +121,10 @@ function ResetPassword() {
                   type="password"
                   autoComplete="new-password"
                   {...register("password", {
-                    onChange: () => void trigger("confirmPassword"),
+                    onChange: () => {
+                      void trigger("password")
+                      void trigger("confirmPassword")
+                    },
                   })}
                 />
                 <ErrorMessage>{errors.password?.message}</ErrorMessage>

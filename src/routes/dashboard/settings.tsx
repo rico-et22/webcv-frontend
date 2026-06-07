@@ -40,7 +40,21 @@ function DashboardSettings() {
       currentPassword: z
         .string()
         .min(1, t("settings.changePassword.currentPasswordRequired")),
-      newPassword: z.string().min(8, t("auth.validation.passwordMin")),
+      newPassword: z.string().superRefine((val, ctx) => {
+        const issues: string[] = []
+        if (val.length < 8) issues.push(t("auth.validation.passwordMin"))
+        if (!/[A-Z]/.test(val)) issues.push(t("auth.validation.passwordUppercase"))
+        if (!/[0-9]/.test(val)) issues.push(t("auth.validation.passwordNumber"))
+        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val))
+          issues.push(t("auth.validation.passwordSpecial"))
+
+        if (issues.length > 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: issues.join("\n"),
+          })
+        }
+      }),
       confirmNewPassword: z
         .string()
         .min(1, t("settings.changePassword.confirmRequired")),
@@ -150,7 +164,10 @@ function DashboardSettings() {
               type="password"
               autoComplete="new-password"
               {...register("newPassword", {
-                onChange: () => trigger("confirmNewPassword"),
+                onChange: () => {
+                  void trigger("newPassword")
+                  void trigger("confirmNewPassword")
+                },
               })}
             />
             <ErrorMessage>{errors.newPassword?.message}</ErrorMessage>
