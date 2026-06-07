@@ -91,6 +91,7 @@ export function SiteCard({ site, onDelete, onPublish }: SiteCardProps) {
             id={`delete-site-${site.id}`}
             onClick={() => onDelete(site.id)}
             className="text-destructive hover:border-destructive/40 hover:bg-destructive/5 hover:text-destructive"
+            aria-label={t("sites.deleteConfirmTitle")}
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>

@@ -9,6 +9,7 @@ import { apiClient } from "@/api/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ErrorMessage } from "@/components/ui/error-message"
 import { Loader2, MailCheck } from "lucide-react"
 import { useState } from "react"
 
@@ -106,11 +107,7 @@ function Register() {
                     autoComplete="email"
                     {...register("email")}
                   />
-                  {errors.email && (
-                    <p className="text-sm text-red-500">
-                      {errors.email.message}
-                    </p>
-                  )}
+                  <ErrorMessage>{errors.email?.message}</ErrorMessage>
                 </div>
 
                 <div className="space-y-2">
@@ -125,11 +122,7 @@ function Register() {
                       onChange: () => void trigger("confirmPassword"),
                     })}
                   />
-                  {errors.password && (
-                    <p className="text-sm text-red-500">
-                      {errors.password.message}
-                    </p>
-                  )}
+                  <ErrorMessage>{errors.password?.message}</ErrorMessage>
                 </div>
 
                 <div className="space-y-2">
@@ -142,11 +135,7 @@ function Register() {
                     autoComplete="new-password"
                     {...register("confirmPassword")}
                   />
-                  {errors.confirmPassword && (
-                    <p className="text-sm text-red-500">
-                      {errors.confirmPassword.message}
-                    </p>
-                  )}
+                  <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
                 </div>
               </div>
 

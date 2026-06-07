@@ -10,6 +10,7 @@ import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ErrorMessage } from "@/components/ui/error-message"
 import { Loader2 } from "lucide-react"
 
 export const Route = createFileRoute("/login")({
@@ -87,9 +88,7 @@ function Login() {
                 autoComplete="email"
                 {...register("email")}
               />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
+              <ErrorMessage>{errors.email?.message}</ErrorMessage>
             </div>
 
             <div className="space-y-2">
@@ -100,11 +99,7 @@ function Login() {
                 autoComplete="current-password"
                 {...register("password")}
               />
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
+              <ErrorMessage>{errors.password?.message}</ErrorMessage>
             </div>
           </div>
 

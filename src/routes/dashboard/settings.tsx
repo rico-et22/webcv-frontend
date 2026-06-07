@@ -12,6 +12,7 @@ import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ErrorMessage } from "@/components/ui/error-message"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -137,11 +138,7 @@ function DashboardSettings() {
               autoComplete="current-password"
               {...register("currentPassword")}
             />
-            {errors.currentPassword && (
-              <p className="text-sm text-destructive">
-                {errors.currentPassword.message}
-              </p>
-            )}
+            <ErrorMessage>{errors.currentPassword?.message}</ErrorMessage>
           </div>
 
           <div className="space-y-2">
@@ -156,11 +153,7 @@ function DashboardSettings() {
                 onChange: () => trigger("confirmNewPassword"),
               })}
             />
-            {errors.newPassword && (
-              <p className="text-sm text-destructive">
-                {errors.newPassword.message}
-              </p>
-            )}
+            <ErrorMessage>{errors.newPassword?.message}</ErrorMessage>
           </div>
 
           <div className="space-y-2">
@@ -173,11 +166,7 @@ function DashboardSettings() {
               autoComplete="new-password"
               {...register("confirmNewPassword")}
             />
-            {errors.confirmNewPassword && (
-              <p className="text-sm text-destructive">
-                {errors.confirmNewPassword.message}
-              </p>
-            )}
+            <ErrorMessage>{errors.confirmNewPassword?.message}</ErrorMessage>
           </div>
 
           <div className="pt-2">

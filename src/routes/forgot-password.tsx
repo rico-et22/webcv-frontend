@@ -9,6 +9,7 @@ import { apiClient } from "@/api/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ErrorMessage } from "@/components/ui/error-message"
 import { Loader2 } from "lucide-react"
 
 export const Route = createFileRoute("/forgot-password")({
@@ -78,9 +79,7 @@ function ForgotPassword() {
                 autoComplete="email"
                 {...register("email")}
               />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
+              <ErrorMessage>{errors.email?.message}</ErrorMessage>
             </div>
           </div>
 

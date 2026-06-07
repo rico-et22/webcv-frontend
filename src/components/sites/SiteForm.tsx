@@ -1,4 +1,4 @@
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form"
+import { useFormContext, useWatch } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import {
   User,
@@ -8,635 +8,22 @@ import {
   GraduationCap,
   FolderGit2,
   Trophy,
-  Plus,
-  Trash2,
-  X,
 } from "lucide-react"
-
-import { useState, useRef } from "react"
-import { toast } from "sonner"
-import { apiClient } from "@/api/client"
-import type { CreateSiteDto } from "@/api/index"
-
-export type SiteFormValues = CreateSiteDto & {
-  avatarUrl?: string
-}
 
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { FileUpload } from "@/components/ui/file-upload"
 import { AiAnalyzer } from "@/components/sites/AiAnalyzer"
-import { cn } from "@/lib/utils"
 
-// ------- Section wrapper -------
-function FormSection({
-  icon: Icon,
-  title,
-  children,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  children: React.ReactNode
-}) {
-  return (
-    <section className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <div className="bg-brand-gradient flex h-7 w-7 shrink-0 items-center justify-center rounded-lg">
-          <Icon className="h-3.5 w-3.5 text-white" />
-        </div>
-        <h2 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
-          {title}
-        </h2>
-      </div>
-      <Separator />
-      {children}
-    </section>
-  )
-}
+import type { SiteFormValues } from "./form/types"
+import { FormSection } from "./form/FormSection"
+import { Field } from "./form/Field"
+import { ImageUploader } from "./form/ImageUploader"
+import { SkillsField } from "./form/SkillsField"
+import { ExperienceSection } from "./form/ExperienceSection"
+import { EducationSection } from "./form/EducationSection"
+import { ProjectsSection } from "./form/ProjectsSection"
+import { AchievementsSection } from "./form/AchievementsSection"
 
-// ------- Field row helper -------
-function Field({
-  label,
-  required,
-  error,
-  children,
-  className,
-}: {
-  label: string
-  required?: boolean
-  error?: string
-  children: React.ReactNode
-  className?: string
-}) {
-  const { t } = useTranslation()
-  return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
-      <Label>
-        {label}
-        {required && (
-          <span className="ml-1 text-xs text-destructive">
-            ({t("sites.form.required")})
-          </span>
-        )}
-      </Label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
-    </div>
-  )
-}
-
-// ------- Image uploader with thumbnail -------
-function ImageUploader({
-  label,
-  currentPath,
-  currentUrl,
-  bucket,
-  onUploaded,
-  onRemoved,
-}: {
-  label: string
-  currentPath?: string
-  currentUrl?: string
-  bucket: "avatars" | "screenshots"
-  onUploaded: (url: string, storagePath: string) => void
-  onRemoved: () => void
-}) {
-  const { t } = useTranslation()
-  const [uploading, setUploading] = useState(false)
-
-  const handleUpload = async (file: File) => {
-    setUploading(true)
-    try {
-      const res = await apiClient.storage.storageControllerUpload({
-        file,
-        bucket,
-      })
-      const { url, storagePath } = res.data.data
-      onUploaded(url, storagePath)
-    } catch {
-      toast.error(t("sites.form.imageError"))
-    } finally {
-      setUploading(false)
-    }
-  }
-
-  const handleRemove = async () => {
-    if (currentPath) {
-      try {
-        await apiClient.storage.storageControllerDeleteFile({
-          path: currentPath,
-          bucket,
-        })
-      } catch {
-        // Silent — we still clear the field
-      }
-    }
-    onRemoved()
-  }
-
-  if (currentUrl) {
-    return (
-      <div className="flex items-center gap-3">
-        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl ring-1 ring-black/10">
-          <img
-            src={currentUrl}
-            alt={label}
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleRemove}
-          className="gap-1.5 text-destructive hover:border-destructive/40 hover:text-destructive"
-        >
-          <X className="h-3.5 w-3.5" />
-          {t("sites.form.removeImage")}
-        </Button>
-      </div>
-    )
-  }
-
-  return (
-    <div className="relative">
-      {uploading && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-white/80">
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-        </div>
-      )}
-      <FileUpload
-        accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
-        maxBytes={50 * 1024 * 1024}
-        label={label}
-        hint={t("sites.upload.imageOnly")}
-        onFile={handleUpload}
-      />
-    </div>
-  )
-}
-
-// ------- Skills -------
-function SkillsField() {
-  const { t } = useTranslation()
-  const { watch, setValue } = useFormContext<SiteFormValues>()
-  const skills = watch("skills") ?? []
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  const addSkill = () => {
-    const val = inputRef.current?.value.trim()
-    if (!val) return
-    if (!skills.includes(val)) {
-      setValue("skills", [...skills, val])
-    }
-    if (inputRef.current) inputRef.current.value = ""
-  }
-
-  const removeSkill = (skill: string) => {
-    setValue(
-      "skills",
-      skills.filter((s) => s !== skill)
-    )
-  }
-
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="flex gap-2">
-        <Input
-          ref={inputRef}
-          placeholder={t("sites.form.skillPlaceholder")}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault()
-              addSkill()
-            }
-          }}
-          id="skill-input"
-        />
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={addSkill}
-          className="shrink-0"
-        >
-          {t("sites.form.addSkill")}
-        </Button>
-      </div>
-      {skills.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {skills.map((skill) => (
-            <span
-              key={skill}
-              className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
-            >
-              {skill}
-              <button
-                type="button"
-                onClick={() => removeSkill(skill)}
-                className="ml-0.5 rounded-full p-0.5 hover:bg-primary/20"
-                aria-label={`${t("sites.form.removeSkill")} ${skill}`}
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
-
-// ------- Experience -------
-function ExperienceSection() {
-  const { t } = useTranslation()
-  const {
-    register,
-    control,
-    formState: { errors },
-  } = useFormContext<SiteFormValues>()
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "experience",
-  })
-
-  return (
-    <div className="flex flex-col gap-4">
-      {fields.map((field, i) => (
-        <div
-          key={field.id}
-          className="flex flex-col gap-3 rounded-xl border border-border bg-muted/30 p-4"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">
-              #{i + 1}
-            </span>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => remove(i)}
-              className="h-7 w-7 text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-          <div className="grid grid-cols-2 items-end gap-3">
-            <Field
-              label={t("sites.form.company")}
-              required
-              error={errors.experience?.[i]?.company?.message}
-              className="col-span-2"
-            >
-              <Input
-                {...register(`experience.${i}.company`, {
-                  required: t("sites.form.required"),
-                })}
-              />
-            </Field>
-            <Field
-              label={t("sites.form.role")}
-              required
-              error={errors.experience?.[i]?.role?.message}
-              className="col-span-2"
-            >
-              <Input
-                {...register(`experience.${i}.role`, {
-                  required: t("sites.form.required"),
-                })}
-              />
-            </Field>
-            <Field
-              label={t("sites.form.startDate")}
-              required
-              error={errors.experience?.[i]?.startDate?.message}
-            >
-              <Input
-                {...register(`experience.${i}.startDate`, {
-                  required: t("sites.form.required"),
-                })}
-                placeholder="2022-01"
-              />
-            </Field>
-            <Field label={t("sites.form.endDateOptional")}>
-              <Input
-                {...register(`experience.${i}.endDate`)}
-                placeholder="2024-06"
-              />
-            </Field>
-          </div>
-          <Field label={t("sites.form.description")}>
-            <Textarea
-              {...register(`experience.${i}.description`)}
-              rows={3}
-              className="resize-none"
-            />
-          </Field>
-        </div>
-      ))}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => append({ company: "", role: "", startDate: "" })}
-        className="w-full gap-2"
-        id="add-experience-btn"
-      >
-        <Plus className="h-4 w-4" />
-        {t("sites.form.addExperience")}
-      </Button>
-    </div>
-  )
-}
-
-// ------- Education -------
-function EducationSection() {
-  const { t } = useTranslation()
-  const {
-    register,
-    control,
-    formState: { errors },
-  } = useFormContext<SiteFormValues>()
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "education",
-  })
-
-  return (
-    <div className="flex flex-col gap-4">
-      {fields.map((field, i) => (
-        <div
-          key={field.id}
-          className="flex flex-col gap-3 rounded-xl border border-border bg-muted/30 p-4"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">
-              #{i + 1}
-            </span>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => remove(i)}
-              className="h-7 w-7 text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-          <div className="grid grid-cols-2 items-end gap-3">
-            <Field
-              label={t("sites.form.institution")}
-              required
-              error={errors.education?.[i]?.institution?.message}
-              className="col-span-2"
-            >
-              <Input
-                {...register(`education.${i}.institution`, {
-                  required: t("sites.form.required"),
-                })}
-              />
-            </Field>
-            <Field
-              label={t("sites.form.degree")}
-              required
-              error={errors.education?.[i]?.degree?.message}
-              className="col-span-2"
-            >
-              <Input
-                {...register(`education.${i}.degree`, {
-                  required: t("sites.form.required"),
-                })}
-              />
-            </Field>
-            <Field
-              label={t("sites.form.startDate")}
-              required
-              error={errors.education?.[i]?.startDate?.message}
-            >
-              <Input
-                {...register(`education.${i}.startDate`, {
-                  required: t("sites.form.required"),
-                })}
-                placeholder="2023-10"
-              />
-            </Field>
-            <Field label={t("sites.form.endDateOptional")}>
-              <Input
-                {...register(`education.${i}.endDate`)}
-                placeholder="2027-06"
-              />
-            </Field>
-          </div>
-        </div>
-      ))}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => append({ institution: "", degree: "", startDate: "" })}
-        className="w-full gap-2"
-        id="add-education-btn"
-      >
-        <Plus className="h-4 w-4" />
-        {t("sites.form.addEducation")}
-      </Button>
-    </div>
-  )
-}
-
-// ------- Projects -------
-function ProjectItem({
-  index,
-  onRemove,
-}: {
-  index: number
-  onRemove: () => void
-}) {
-  const { t } = useTranslation()
-  const {
-    register,
-    setValue,
-    formState: { errors },
-  } = useFormContext<SiteFormValues>()
-  const storagePath = useWatch({
-    name: `projects.${index}.imageStoragePath` as const,
-  }) as string | undefined
-  // Use the signed URL from form state (populated by reset(siteData) on edit load,
-  // or set directly after a fresh upload via onUploaded).
-  const imageUrl = useWatch({
-    name: `projects.${index}.imageUrl` as const,
-  }) as string | undefined
-
-  return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border bg-muted/30 p-4">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-muted-foreground">
-          #{index + 1}
-        </span>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={onRemove}
-          className="h-7 w-7 text-destructive hover:bg-destructive/10"
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
-      </div>
-      <div className="grid grid-cols-1 gap-3">
-        <Field
-          label={t("sites.form.projectName")}
-          required
-          error={errors.projects?.[index]?.name?.message}
-        >
-          <Input
-            {...register(`projects.${index}.name`, {
-              required: t("sites.form.required"),
-            })}
-          />
-        </Field>
-        <Field label={t("sites.form.projectUrl")}>
-          <Input {...register(`projects.${index}.url`)} type="url" />
-        </Field>
-      </div>
-      <Field label={t("sites.form.description")}>
-        <Textarea
-          {...register(`projects.${index}.description`)}
-          rows={2}
-          className="resize-none"
-        />
-      </Field>
-      <Field label={t("sites.form.projectImage")}>
-        <input
-          type="hidden"
-          {...register(`projects.${index}.imageStoragePath` as const)}
-        />
-        <ImageUploader
-          label={t("sites.form.uploadImage")}
-          currentPath={storagePath}
-          currentUrl={imageUrl}
-          bucket="screenshots"
-          onUploaded={(url, path) => {
-            setValue(`projects.${index}.imageUrl`, url)
-            setValue(`projects.${index}.imageStoragePath`, path, {
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }}
-          onRemoved={() => {
-            setValue(`projects.${index}.imageUrl`, undefined)
-            setValue(`projects.${index}.imageStoragePath`, undefined, {
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }}
-        />
-      </Field>
-    </div>
-  )
-}
-
-function ProjectsSection() {
-  const { t } = useTranslation()
-  const { control } = useFormContext<SiteFormValues>()
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "projects",
-  })
-
-  return (
-    <div className="flex flex-col gap-4">
-      {fields.map((field, i) => (
-        <ProjectItem key={field.id} index={i} onRemove={() => remove(i)} />
-      ))}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => append({ name: "" })}
-        className="w-full gap-2"
-        id="add-project-btn"
-      >
-        <Plus className="h-4 w-4" />
-        {t("sites.form.addProject")}
-      </Button>
-    </div>
-  )
-}
-
-// ------- Achievements -------
-function AchievementsSection() {
-  const { t } = useTranslation()
-  const {
-    register,
-    control,
-    formState: { errors },
-  } = useFormContext<SiteFormValues>()
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "achievements",
-  })
-
-  return (
-    <div className="flex flex-col gap-4">
-      {fields.map((field, i) => (
-        <div
-          key={field.id}
-          className="flex flex-col gap-3 rounded-xl border border-border bg-muted/30 p-4"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">
-              #{i + 1}
-            </span>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => remove(i)}
-              className="h-7 w-7 text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-          <Field
-            label={t("sites.form.achievementTitle")}
-            required
-            error={errors.achievements?.[i]?.title?.message}
-          >
-            <Input
-              {...register(`achievements.${i}.title`, {
-                required: t("sites.form.required"),
-              })}
-            />
-          </Field>
-          <Field label={t("sites.form.description")}>
-            <Textarea
-              {...register(`achievements.${i}.description`)}
-              rows={2}
-              className="resize-none"
-            />
-          </Field>
-        </div>
-      ))}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => append({ title: "" })}
-        className="w-full gap-2"
-        id="add-achievement-btn"
-      >
-        <Plus className="h-4 w-4" />
-        {t("sites.form.addAchievement")}
-      </Button>
-    </div>
-  )
-}
-
-// ------- Main SiteForm -------
 export interface SiteFormHandles {
   getValues: () => SiteFormValues
 }
@@ -694,6 +81,7 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <Field
             label={t("sites.form.fullName")}
+            htmlFor="full-name-input"
             required
             error={errors.fullName?.message}
             className="col-span-2 sm:col-span-1"
@@ -707,16 +95,21 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
           </Field>
           <Field
             label={t("sites.form.jobTitle")}
+            htmlFor="job-title-input"
             className="col-span-2 sm:col-span-1"
           >
             <Input {...register("jobTitle")} id="job-title-input" />
           </Field>
-          <Field label={t("sites.form.location")} className="col-span-2">
+          <Field
+            label={t("sites.form.location")}
+            htmlFor="location-input"
+            className="col-span-2"
+          >
             <Input {...register("location")} id="location-input" />
           </Field>
         </div>
 
-        <Field label={t("sites.form.bio")}>
+        <Field label={t("sites.form.bio")} htmlFor="bio-input">
           <Textarea
             {...register("bio")}
             rows={4}
@@ -731,30 +124,58 @@ export function SiteForm({ onAiApply }: SiteFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <Field
             label={t("sites.form.email")}
+            htmlFor="contact-email-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.email")} type="email" />
+            <Input
+              {...register("contacts.email")}
+              id="contact-email-input"
+              type="email"
+            />
           </Field>
           <Field
             label={t("sites.form.phone")}
+            htmlFor="contact-phone-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.phone")} type="tel" />
+            <Input
+              {...register("contacts.phone")}
+              id="contact-phone-input"
+              type="tel"
+            />
           </Field>
           <Field
             label={t("sites.form.linkedin")}
+            htmlFor="contact-linkedin-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.linkedin")} type="url" />
+            <Input
+              {...register("contacts.linkedin")}
+              id="contact-linkedin-input"
+              type="url"
+            />
           </Field>
           <Field
             label={t("sites.form.github")}
+            htmlFor="contact-github-input"
             className="col-span-2 sm:col-span-1"
           >
-            <Input {...register("contacts.github")} type="url" />
+            <Input
+              {...register("contacts.github")}
+              id="contact-github-input"
+              type="url"
+            />
           </Field>
-          <Field label={t("sites.form.website")} className="col-span-2">
-            <Input {...register("contacts.website")} type="url" />
+          <Field
+            label={t("sites.form.website")}
+            htmlFor="contact-website-input"
+            className="col-span-2"
+          >
+            <Input
+              {...register("contacts.website")}
+              id="contact-website-input"
+              type="url"
+            />
           </Field>
         </div>
       </FormSection>
