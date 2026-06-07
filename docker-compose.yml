@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  webcv-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webcv-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    env_file:
+      - .env
