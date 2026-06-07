@@ -48,10 +48,11 @@ pnpm generate:api # Generate API client from backend Swagger JSON
 ```
 webcv-frontend/
 ├── public/                    # Static assets served as-is
+│   ├── lead.png               # OG image & Landing page hero image
+│   └── favicon.svg            # Favicon
 ├── src/
 │   ├── assets/                # Images & SVGs (imported into JS bundle)
-│   │   ├── logo.svg           # webCV logo
-│   │   └── lead.png           # Landing page hero image
+│   │   └── logo.svg               # webCV logo
 │   ├── components/
 │   │   ├── ui/                # shadcn/ui primitives (do NOT edit directly — use `npx shadcn add`)
 │   │   ├── header.tsx         # Global header (sticky, with nav)

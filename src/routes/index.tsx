@@ -2,7 +2,6 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import leadImage from "@/assets/lead.png"
 import { useAuth } from "@/lib/auth-context"
 
 export const Route = createFileRoute("/")({
@@ -62,7 +61,7 @@ function LandingPage() {
         }}
       >
         <img
-          src={leadImage}
+          src="/lead.png"
           alt={t("landing.leadImageAlt")}
           className="w-full rounded-2xl shadow-2xl ring-1 shadow-black/10 ring-border"
           width={1400}
