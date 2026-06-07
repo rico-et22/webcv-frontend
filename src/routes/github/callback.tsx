@@ -7,6 +7,9 @@ export const Route = createFileRoute("/github/callback")({
   component: GithubCallbackPage,
 })
 
+let exchangePromise: Promise<any> | null = null
+let exchangedCode: string | null = null
+
 function GithubCallbackPage() {
   const { t } = useTranslation()
   const params = new URLSearchParams(window.location.search)
@@ -20,10 +23,14 @@ function GithubCallbackPage() {
       return
     }
 
+    if (code !== exchangedCode) {
+      exchangedCode = code
+      exchangePromise = apiClient.github.githubControllerExchange({ code })
+    }
+
     let isMounted = true
 
-    apiClient.github
-      .githubControllerExchange({ code })
+    exchangePromise!
       .then((res) => {
         if (!isMounted) return
 
