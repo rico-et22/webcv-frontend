@@ -8,7 +8,8 @@ import type { CreateSiteDto } from "@/api/index"
 import { toast } from "sonner"
 import { ArrowLeft, Save, Monitor } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SiteForm, type SiteFormValues } from "@/components/sites/SiteForm"
+import { SiteForm } from "@/components/sites/SiteForm"
+import type { SiteFormValues } from "@/components/sites/form/types"
 import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard"
 
 export const Route = createFileRoute("/sites/create")({
