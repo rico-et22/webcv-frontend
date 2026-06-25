@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute, Link, redirect } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { useForm, FormProvider, useWatch } from "react-hook-form"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -15,6 +15,14 @@ import { PublishModal } from "@/components/sites/PublishModal"
 import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard"
 
 export const Route = createFileRoute("/sites/$siteId/edit")({
+  beforeLoad: () => {
+    const token = localStorage.getItem("accessToken")
+    if (!token) {
+      throw redirect({
+        to: "/login",
+      })
+    }
+  },
   component: EditSitePage,
 })
 

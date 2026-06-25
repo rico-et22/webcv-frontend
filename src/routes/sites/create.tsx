@@ -1,5 +1,10 @@
 import { useEffect } from "react"
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import {
+  createFileRoute,
+  Link,
+  useNavigate,
+  redirect,
+} from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { useForm, FormProvider } from "react-hook-form"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -13,6 +18,14 @@ import type { SiteFormValues } from "@/components/sites/form/types"
 import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard"
 
 export const Route = createFileRoute("/sites/create")({
+  beforeLoad: () => {
+    const token = localStorage.getItem("accessToken")
+    if (!token) {
+      throw redirect({
+        to: "/login",
+      })
+    }
+  },
   component: CreateSitePage,
 })
 

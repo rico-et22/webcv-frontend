@@ -43,7 +43,8 @@ function DashboardSettings() {
       newPassword: z.string().superRefine((val, ctx) => {
         const issues: string[] = []
         if (val.length < 8) issues.push(t("auth.validation.passwordMin"))
-        if (!/[A-Z]/.test(val)) issues.push(t("auth.validation.passwordUppercase"))
+        if (!/[A-Z]/.test(val))
+          issues.push(t("auth.validation.passwordUppercase"))
         if (!/[0-9]/.test(val)) issues.push(t("auth.validation.passwordNumber"))
         if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val))
           issues.push(t("auth.validation.passwordSpecial"))

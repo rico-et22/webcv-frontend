@@ -12,7 +12,7 @@ export const ErrorMessage = React.forwardRef<
       <ul
         ref={ref as React.Ref<HTMLUListElement>}
         className={cn(
-          "mt-2 space-y-1 pl-4 text-sm font-medium text-destructive list-disc",
+          "mt-2 list-disc space-y-1 pl-4 text-sm font-medium text-destructive",
           className
         )}
         {...props}

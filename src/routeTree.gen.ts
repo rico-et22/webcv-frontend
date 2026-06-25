@@ -8,177 +8,177 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as SplatRouteImport } from './routes/$'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as SitesCreateRouteImport } from './routes/sites/create'
-import { Route as GithubCallbackRouteImport } from './routes/github/callback'
-import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
-import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
-import { Route as SitesSiteIdEditRouteImport } from './routes/sites/$siteId.edit'
+import { Route as rootRouteImport } from "./routes/__root"
+import { Route as ResetPasswordRouteImport } from "./routes/reset-password"
+import { Route as RegisterRouteImport } from "./routes/register"
+import { Route as LoginRouteImport } from "./routes/login"
+import { Route as ForgotPasswordRouteImport } from "./routes/forgot-password"
+import { Route as DashboardRouteImport } from "./routes/dashboard"
+import { Route as SplatRouteImport } from "./routes/$"
+import { Route as IndexRouteImport } from "./routes/index"
+import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index"
+import { Route as SitesCreateRouteImport } from "./routes/sites/create"
+import { Route as GithubCallbackRouteImport } from "./routes/github/callback"
+import { Route as DashboardSettingsRouteImport } from "./routes/dashboard/settings"
+import { Route as AuthCallbackRouteImport } from "./routes/auth.callback"
+import { Route as SitesSiteIdEditRouteImport } from "./routes/sites/$siteId.edit"
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
+  id: "/reset-password",
+  path: "/reset-password",
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
+  id: "/register",
+  path: "/register",
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+  id: "/login",
+  path: "/login",
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
+  id: "/forgot-password",
+  path: "/forgot-password",
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+  id: "/dashboard",
+  path: "/dashboard",
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
-  id: '/$',
-  path: '/$',
+  id: "/$",
+  path: "/$",
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => DashboardRoute,
 } as any)
 const SitesCreateRoute = SitesCreateRouteImport.update({
-  id: '/sites/create',
-  path: '/sites/create',
+  id: "/sites/create",
+  path: "/sites/create",
   getParentRoute: () => rootRouteImport,
 } as any)
 const GithubCallbackRoute = GithubCallbackRouteImport.update({
-  id: '/github/callback',
-  path: '/github/callback',
+  id: "/github/callback",
+  path: "/github/callback",
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
+  id: "/settings",
+  path: "/settings",
   getParentRoute: () => DashboardRoute,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/auth/callback',
-  path: '/auth/callback',
+  id: "/auth/callback",
+  path: "/auth/callback",
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitesSiteIdEditRoute = SitesSiteIdEditRouteImport.update({
-  id: '/sites/$siteId/edit',
-  path: '/sites/$siteId/edit',
+  id: "/sites/$siteId/edit",
+  path: "/sites/$siteId/edit",
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/$': typeof SplatRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/auth/callback': typeof AuthCallbackRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
-  '/github/callback': typeof GithubCallbackRoute
-  '/sites/create': typeof SitesCreateRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
+  "/": typeof IndexRoute
+  "/$": typeof SplatRoute
+  "/dashboard": typeof DashboardRouteWithChildren
+  "/forgot-password": typeof ForgotPasswordRoute
+  "/login": typeof LoginRoute
+  "/register": typeof RegisterRoute
+  "/reset-password": typeof ResetPasswordRoute
+  "/auth/callback": typeof AuthCallbackRoute
+  "/dashboard/settings": typeof DashboardSettingsRoute
+  "/github/callback": typeof GithubCallbackRoute
+  "/sites/create": typeof SitesCreateRoute
+  "/dashboard/": typeof DashboardIndexRoute
+  "/sites/$siteId/edit": typeof SitesSiteIdEditRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/$': typeof SplatRoute
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/auth/callback': typeof AuthCallbackRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
-  '/github/callback': typeof GithubCallbackRoute
-  '/sites/create': typeof SitesCreateRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
+  "/": typeof IndexRoute
+  "/$": typeof SplatRoute
+  "/forgot-password": typeof ForgotPasswordRoute
+  "/login": typeof LoginRoute
+  "/register": typeof RegisterRoute
+  "/reset-password": typeof ResetPasswordRoute
+  "/auth/callback": typeof AuthCallbackRoute
+  "/dashboard/settings": typeof DashboardSettingsRoute
+  "/github/callback": typeof GithubCallbackRoute
+  "/sites/create": typeof SitesCreateRoute
+  "/dashboard": typeof DashboardIndexRoute
+  "/sites/$siteId/edit": typeof SitesSiteIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/$': typeof SplatRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/auth/callback': typeof AuthCallbackRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
-  '/github/callback': typeof GithubCallbackRoute
-  '/sites/create': typeof SitesCreateRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/sites/$siteId/edit': typeof SitesSiteIdEditRoute
+  "/": typeof IndexRoute
+  "/$": typeof SplatRoute
+  "/dashboard": typeof DashboardRouteWithChildren
+  "/forgot-password": typeof ForgotPasswordRoute
+  "/login": typeof LoginRoute
+  "/register": typeof RegisterRoute
+  "/reset-password": typeof ResetPasswordRoute
+  "/auth/callback": typeof AuthCallbackRoute
+  "/dashboard/settings": typeof DashboardSettingsRoute
+  "/github/callback": typeof GithubCallbackRoute
+  "/sites/create": typeof SitesCreateRoute
+  "/dashboard/": typeof DashboardIndexRoute
+  "/sites/$siteId/edit": typeof SitesSiteIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/$'
-    | '/dashboard'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/auth/callback'
-    | '/dashboard/settings'
-    | '/github/callback'
-    | '/sites/create'
-    | '/dashboard/'
-    | '/sites/$siteId/edit'
+    | "/"
+    | "/$"
+    | "/dashboard"
+    | "/forgot-password"
+    | "/login"
+    | "/register"
+    | "/reset-password"
+    | "/auth/callback"
+    | "/dashboard/settings"
+    | "/github/callback"
+    | "/sites/create"
+    | "/dashboard/"
+    | "/sites/$siteId/edit"
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/$'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/auth/callback'
-    | '/dashboard/settings'
-    | '/github/callback'
-    | '/sites/create'
-    | '/dashboard'
-    | '/sites/$siteId/edit'
+    | "/"
+    | "/$"
+    | "/forgot-password"
+    | "/login"
+    | "/register"
+    | "/reset-password"
+    | "/auth/callback"
+    | "/dashboard/settings"
+    | "/github/callback"
+    | "/sites/create"
+    | "/dashboard"
+    | "/sites/$siteId/edit"
   id:
-    | '__root__'
-    | '/'
-    | '/$'
-    | '/dashboard'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/auth/callback'
-    | '/dashboard/settings'
-    | '/github/callback'
-    | '/sites/create'
-    | '/dashboard/'
-    | '/sites/$siteId/edit'
+    | "__root__"
+    | "/"
+    | "/$"
+    | "/dashboard"
+    | "/forgot-password"
+    | "/login"
+    | "/register"
+    | "/reset-password"
+    | "/auth/callback"
+    | "/dashboard/settings"
+    | "/github/callback"
+    | "/sites/create"
+    | "/dashboard/"
+    | "/sites/$siteId/edit"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -195,96 +195,96 @@ export interface RootRouteChildren {
   SitesSiteIdEditRoute: typeof SitesSiteIdEditRoute
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
+    "/reset-password": {
+      id: "/reset-password"
+      path: "/reset-password"
+      fullPath: "/reset-password"
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
+    "/register": {
+      id: "/register"
+      path: "/register"
+      fullPath: "/register"
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
+    "/login": {
+      id: "/login"
+      path: "/login"
+      fullPath: "/login"
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/forgot-password': {
-      id: '/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
+    "/forgot-password": {
+      id: "/forgot-password"
+      path: "/forgot-password"
+      fullPath: "/forgot-password"
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
+    "/dashboard": {
+      id: "/dashboard"
+      path: "/dashboard"
+      fullPath: "/dashboard"
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$': {
-      id: '/$'
-      path: '/$'
-      fullPath: '/$'
+    "/$": {
+      id: "/$"
+      path: "/$"
+      fullPath: "/$"
       preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
+    "/": {
+      id: "/"
+      path: "/"
+      fullPath: "/"
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/'
-      fullPath: '/dashboard/'
+    "/dashboard/": {
+      id: "/dashboard/"
+      path: "/"
+      fullPath: "/dashboard/"
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/sites/create': {
-      id: '/sites/create'
-      path: '/sites/create'
-      fullPath: '/sites/create'
+    "/sites/create": {
+      id: "/sites/create"
+      path: "/sites/create"
+      fullPath: "/sites/create"
       preLoaderRoute: typeof SitesCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/github/callback': {
-      id: '/github/callback'
-      path: '/github/callback'
-      fullPath: '/github/callback'
+    "/github/callback": {
+      id: "/github/callback"
+      path: "/github/callback"
+      fullPath: "/github/callback"
       preLoaderRoute: typeof GithubCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/settings': {
-      id: '/dashboard/settings'
-      path: '/settings'
-      fullPath: '/dashboard/settings'
+    "/dashboard/settings": {
+      id: "/dashboard/settings"
+      path: "/settings"
+      fullPath: "/dashboard/settings"
       preLoaderRoute: typeof DashboardSettingsRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/auth/callback'
-      fullPath: '/auth/callback'
+    "/auth/callback": {
+      id: "/auth/callback"
+      path: "/auth/callback"
+      fullPath: "/auth/callback"
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sites/$siteId/edit': {
-      id: '/sites/$siteId/edit'
-      path: '/sites/$siteId/edit'
-      fullPath: '/sites/$siteId/edit'
+    "/sites/$siteId/edit": {
+      id: "/sites/$siteId/edit"
+      path: "/sites/$siteId/edit"
+      fullPath: "/sites/$siteId/edit"
       preLoaderRoute: typeof SitesSiteIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -302,7 +302,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
+  DashboardRouteChildren
 )
 
 const rootRouteChildren: RootRouteChildren = {
