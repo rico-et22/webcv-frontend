@@ -209,6 +209,7 @@
       "password": "Hasło",
       "confirmPassword": "Powtórz hasło",
       "submit": "Zarejestruj",
+      "consent": "Aplikacja webCV stanowi niekomercyjną pracę inżynierską. Twoje dane osobowe są przetwarzane na serwerach znajdujących się w Unii Europejskiej (m.in. Supabase, Microsoft AI Foundry). Autor aplikacji nie udziela żadnej gwarancji na działanie. Jestem tego świadomy.",
       "pending": "Rejestracja...",
       "success": "Zarejestrowano. Sprawdź swoją skrzynkę e-mail.",
       "successTitle": "Sprawdź swoją skrzynkę",
@@ -247,7 +248,8 @@
       "passwordNumber": "Hasło musi zawierać co najmniej jedną cyfrę",
       "passwordSpecial": "Hasło musi zawierać co najmniej jeden znak specjalny",
       "confirmPasswordRequired": "Potwierdzenie hasła jest wymagane",
-      "passwordsMismatch": "Hasła nie są identyczne"
+      "passwordsMismatch": "Hasła nie są identyczne",
+      "consentRequired": "Zaakceptowanie oświadczenia jest wymagane"
     },
     "session": {
       "expired": "Sesja wygasła. Zaloguj się ponownie.",

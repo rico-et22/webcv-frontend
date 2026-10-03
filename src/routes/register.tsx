@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useTranslation } from "react-i18next"
@@ -9,6 +9,7 @@ import { apiClient } from "@/api/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import { ErrorMessage } from "@/components/ui/error-message"
 import { Loader2, MailCheck } from "lucide-react"
 import { useState } from "react"
@@ -43,6 +44,9 @@ function Register() {
       confirmPassword: z
         .string()
         .min(1, t("auth.validation.confirmPasswordRequired")),
+      consent: z.boolean().refine((val) => val === true, {
+        message: t("auth.validation.consentRequired"),
+      }),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: t("auth.validation.passwordsMismatch"),
@@ -55,13 +59,20 @@ function Register() {
     register,
     handleSubmit,
     trigger,
+    control,
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      consent: false,
+    },
   })
 
   const registerMutation = useMutation({
-    mutationFn: ({ email, password }: RegisterFormValues) =>
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
       apiClient.auth.authControllerRegister({ email, password }),
     onSuccess: () => {
       setIsSuccess(true)
@@ -72,7 +83,7 @@ function Register() {
   })
 
   const onSubmit = (data: RegisterFormValues) => {
-    registerMutation.mutate(data)
+    registerMutation.mutate({ email: data.email, password: data.password })
   }
 
   return (
@@ -156,6 +167,38 @@ function Register() {
                     {...register("confirmPassword")}
                   />
                   <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <Controller
+                      control={control}
+                      name="consent"
+                      render={({ field }) => (
+                        <Checkbox
+                          id="consent"
+                          checked={field.value}
+                          onCheckedChange={(checked) =>
+                            field.onChange(checked === true)
+                          }
+                          aria-invalid={!!errors.consent}
+                          className="mt-0.5"
+                        />
+                      )}
+                    />
+                    <Label
+                      htmlFor="consent"
+                      className="block cursor-pointer text-xs leading-normal font-normal text-gray-600"
+                    >
+                      {t("auth.register.consent")}{" "}
+                      <span
+                        className="font-medium text-destructive"
+                        aria-hidden="true"
+                      >
+                        *
+                      </span>
+                    </Label>
+                  </div>
+                  <ErrorMessage>{errors.consent?.message}</ErrorMessage>
                 </div>
               </div>
 
