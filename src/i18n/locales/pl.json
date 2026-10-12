@@ -22,10 +22,10 @@
     },
     "deleteAccount": {
       "title": "Usuń konto",
-      "description": "Trwale usuń swoje konto i wszystkie zapisane dane, w tym strony portfolio. Tej operacji nie można cofnąć.",
+      "description": "Trwale usuń swoje konto i wszystkie zapisane dane, w tym wizytówki internetowe. Tej operacji nie można cofnąć.",
       "button": "Usuń konto",
       "confirmTitle": "Czy na pewno chcesz usunąć konto?",
-      "confirmDesc": "Wszystkie Twoje dane, w tym strony portfolio, zostaną trwale usunięte. Tej operacji nie można cofnąć.",
+      "confirmDesc": "Wszystkie Twoje dane, w tym wizytówki internetowe, zostaną trwale usunięte. Tej operacji nie można cofnąć.",
       "confirmCancel": "Anuluj",
       "confirmAction": "Tak, usuń konto",
       "confirmPending": "Usuwanie...",
@@ -41,7 +41,7 @@
     "sites": {
       "title": "Moje strony",
       "empty": "Nie masz jeszcze żadnych stron",
-      "emptyDesc": "Utwórz swoją pierwszą stronę portfolio już teraz.",
+      "emptyDesc": "Utwórz swoją pierwszą wizytówkę internetową już teraz.",
       "create": "Utwórz stronę",
       "edit": "Edytuj",
       "publish": "Opublikuj",
@@ -71,7 +71,7 @@
     "publish": "Opublikuj",
     "publishModal": {
       "title": "Opublikuj stronę",
-      "desc": "Wybierz sposób, w jaki chcesz opublikować swoją stronę portfolio:",
+      "desc": "Wybierz sposób, w jaki chcesz opublikować swoją stronę-wizytówkę:",
       "option1Title": "Opcja 1 – Hosting FTP (np. OVH, nazwa.pl, home.pl)",
       "option1Desc": "Połącz się z hostingiem przez FileZilla lub inny klient FTP. Wgraj zawartość folderu do katalogu publicznego (np. public_html).",
       "option2Title": "Opcja 2 (rekomendowana) – Darmowy hosting na GitHub Pages",
@@ -182,9 +182,9 @@
   "landing": {
     "headline": "Twoja wizytówka w sieci",
     "headlineHighlight": "z Twojego CV",
-    "subtitle": "Wypełnij formularz lub wrzuć plik PDF — asystent AI uzupełni dane za Ciebie. W kilka minut wygenerujesz gotową stronę portfolio, którą postawisz na dowolnym hostingu.",
+    "subtitle": "Wypełnij formularz lub wrzuć plik PDF — asystent AI uzupełni dane za Ciebie. W kilka minut wygenerujesz gotową wizytówkę internetową, którą postawisz na dowolnym hostingu.",
     "cta": "Rozpocznij",
-    "leadImageAlt": "CV przekształcone w stronę portfolio"
+    "leadImageAlt": "CV przekształcone w wizytówkę internetową"
   },
   "notFound": {
     "title": "Nie znaleziono strony",
